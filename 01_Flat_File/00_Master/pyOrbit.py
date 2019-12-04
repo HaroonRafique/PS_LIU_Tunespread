@@ -176,9 +176,21 @@ if sts['turn'] < 0:
 	for i in p:
 		print '\t', i, '\t = \t', p[i]
 
-	print '\n\t\tLoad distribution from ', p['input_distn'] ,' on MPI process: ', rank
-	path_to_distn = p['input_distn']
-	bunch = bunch_from_matfile(path_to_distn)
+	if s['CreateDistn']:
+# Create the initial distribution 
+#-----------------------------------------------------------------------
+		print '\ngenerate_initial_distribution on MPI process: ', rank
+		Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+
+		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+
+	else:
+# OR load bunch from file
+#-----------------------------------------------------------------------
+		print '\n\t\tLoad distribution from ', p['input_distn'] ,' on MPI process: ', rank
+		path_to_distn = p['input_distn']
+		bunch = bunch_from_matfile(path_to_distn)
 
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
@@ -225,7 +237,7 @@ paramsDict["bunch"]= bunch
 if s['Space_Charge']:
 	print '\n\t\tAdding slice-by-slice space charge nodes on MPI process: ', rank
 	# Make a SC solver
-	calcsbs = SpaceChargeCalcSliceBySlice2D(s['GridSizeX'], s['GridSizeY'], s['GridSizeZ'], useLongitudinalKick=s['LongitudinalKick'])
+	calcsbs = SpaceChargeCalcSliceBySlice2D(s['GridSizeX'], s['GridSizeY'], s['GridSizeZ'], useLongitudinalKick=True)
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
 	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)

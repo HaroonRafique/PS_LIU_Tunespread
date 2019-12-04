@@ -2,17 +2,15 @@ import numpy as np
 
 parameters = {}
 
+parameters['Beam']						= 'BCMS' #'Nominal'
+parameters['Machine']					= 'PreLIU' #'LIU'
+
 parameters['tunex']						= '621'
 parameters['tuney']						= '624'
 
 parameters['lattice_start'] 			= 'BWSH65'
-parameters['n_macroparticles']			= int(5E5)
-
 # ~ parameters['lattice_start'] 		= 'BWSV64'
-# ~ parameters['n_macroparticles']		= int(5E5)
-
-# Fix tune to nominal for tune scans
-parameters['input_distn'] = str('../../12_PFW_Test/Generate_Distns/Bunches/PyORBIT_Tomo_Bunch_Manual_Twiss_Nmp_'+str(parameters['n_macroparticles'])+'_PS_Optimised_Lattice_Tune_621_624_'+parameters['lattice_start']+'.mat')
+parameters['n_macroparticles']			= int(5E5)
 
 parameters['gamma']				= 2.49253731343
 parameters['intensity']			= 72.5E+10
@@ -28,6 +26,8 @@ parameters['rf_voltage']		= 0.0212942055190595723
 parameters['circumference']		= 2*np.pi*100
 parameters['phi_s']				= 0
 parameters['macrosize']			= parameters['intensity']/float(parameters['n_macroparticles'])
+parameters['tomo_file']			='PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'.txt'
+
 
 # PS Injection 1.4 GeV
 parameters['gamma'] 	= 2.49253731343
@@ -47,9 +47,9 @@ parameters['turns_print'] = sorted(tu)
 parameters['turns_update'] = sorted(tu)
 
 switches = {
+	'Create_Distn':		True,
 	'Update_Twiss':		False,
 	'Space_Charge': 	True,
-	'LongitudinalKick': True,
 	'GridSizeX': 128,
 	'GridSizeY': 128,
 	'GridSizeZ': 64
