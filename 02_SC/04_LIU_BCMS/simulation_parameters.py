@@ -50,7 +50,7 @@ parameters['turns_print'] = sorted(tu)
 parameters['turns_update'] = sorted(tu)
 
 switches = {
-	'Create_Distn':		True,
+	'CreateDistn':		True,
 	'Update_Twiss':		False,
 	'Space_Charge': 	True,
 	'GridSizeX': 128,
