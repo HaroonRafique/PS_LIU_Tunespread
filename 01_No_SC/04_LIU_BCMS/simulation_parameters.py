@@ -84,7 +84,10 @@ switches = {
 harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
 time = np.array([0,1,2])
 ones = np.ones_like(time)
-Ekin_GeV = 1.4*ones
+if parameters['Machine'] is 'PreLIU':
+	Ekin_GeV = 1.4*ones
+elif parameters['Machine'] is 'LIU':
+	Ekin_GeV = 2.0*ones
 RF_voltage_MV = np.array([parameters['rf_voltage']*ones]).T # in MV
 RF_phase = np.array([np.pi*ones]).T
 
