@@ -19,9 +19,9 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 # Must be chosen
 
 # ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
-queue = 'batch-short'
+queue = 'batch-long'
 
-n_nodes = 4 
+n_nodes = 2
 
 jobname = 'LIU_01_03'
 

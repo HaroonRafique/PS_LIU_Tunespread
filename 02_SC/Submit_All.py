@@ -3,8 +3,8 @@ import os
 master_dir = os.getcwd()
 
 locations = []
-locations.append('/01_PreLIU_Nominal')
-locations.append('/02_PreLIU_BCMS')
+#locations.append('/01_PreLIU_Nominal')
+#locations.append('/02_PreLIU_BCMS')
 locations.append('/03_LIU_Nominal')
 locations.append('/04_LIU_BCMS')
 
