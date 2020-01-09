@@ -43,7 +43,7 @@ parameters['TransverseCut']		= 5
 parameters['circumference']		= 2*np.pi*100
 parameters['phi_s']				= 0
 parameters['macrosize']			= parameters['intensity']/float(parameters['n_macroparticles'])
-parameters['tomo_file']			='PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_'+parameters['Year']+'.mat'
+parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_'+parameters['Year']+'.mat'
 
 c 						= 299792458
 parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
