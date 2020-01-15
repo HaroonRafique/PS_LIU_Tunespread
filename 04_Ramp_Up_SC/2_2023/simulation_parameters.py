@@ -49,7 +49,7 @@ c 						= 299792458
 parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
 
 parameters['turns_max'] = int(5000)
-tu1 = range(-1, parameters['turns_max'], 200)
+tu1 = range(-1, parameters['turns_max'], 20)
 tu2 = range(50, 100, 10) 
 tu3 = range(0, 50)
 tu = tu2 + tu1 + tu3 
