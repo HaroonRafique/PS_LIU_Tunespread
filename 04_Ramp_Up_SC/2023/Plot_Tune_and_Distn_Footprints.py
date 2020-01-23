@@ -217,7 +217,7 @@ tune_sav = '6p21_6p245'
 sc = 'SbS'
 main_label = '2023'
 
-source_dir =  './2_2023/bunch_output/'
+source_dir =  './2023/bunch_output/'
 save_folder = source_dir
 
 master_bins = 512
