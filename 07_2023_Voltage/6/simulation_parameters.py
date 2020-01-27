@@ -3,7 +3,7 @@ import os
 
 cwd = os.getcwd() # Get the current working directory
 digits = int(cwd[-1]) # Use last digit to select our voltage
-voltages = [41.2, 41.4, 41.6, 41.8, 42.0, 42.2, 42.4]*1E-3
+voltages = [41.2E-3, 41.4E-3, 41.6E-3, 41.8E-3, 42.0E-3, 42.2E-3, 42.4E-3]
 
 parameters = {}
 
