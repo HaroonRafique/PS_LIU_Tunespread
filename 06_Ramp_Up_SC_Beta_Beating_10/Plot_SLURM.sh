@@ -11,7 +11,7 @@
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR='/hpcscratch/user/harafiqu'
-RUN_DIR='/hpcscratch/user/harafiqu/PS_LIU_Tunespread/04_Ramp_Up_SC'
+RUN_DIR='/hpcscratch/user/harafiqu/PS_LIU_Tunespread/06_Ramp_Up_SC_Beta_Beating_10'
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
