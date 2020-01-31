@@ -7,9 +7,6 @@ locations.append('/1')
 locations.append('/2')
 locations.append('/3')
 locations.append('/4')
-locations.append('/5')
-locations.append('/6')
-locations.append('/7')
 
 for loc in locations:
 	print '--------------------------------------------------------------------------------------------'
