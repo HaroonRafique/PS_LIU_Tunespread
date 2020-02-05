@@ -24,7 +24,7 @@ queue = 'inf-long'
 n_nodes = 2 
 cwd = os.getcwd() # Get the present directory
 digits = int(cwd[-2:]) # Use last 2 digits to select our dp/p
-jobname = 'LIU_9_'+str(digits)
+jobname = 'LIU10_'+str(digits)
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
