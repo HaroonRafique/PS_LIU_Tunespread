@@ -214,12 +214,14 @@ if sts['turn'] < 0:
 	if s['CreateDistn']:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
-		print '\ngenerate_initial_distribution on MPI process: ', rank
-		# ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-		Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                if not rank:
+                        print '\ngenerate_initial_distribution on MPI process: ', rank
+                        # ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                        Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+                        print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+                        bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+                orbit_mpi.MPI_Barrier(comm)
 
 	else:
 # OR load bunch from file
