@@ -4,7 +4,7 @@ pyorbit = True
 simulation_parameters = False
 flat_files = False
 tune_files = False
-distn_gen = False
+distn_gen = True
 
 master_directory = './00_Master/PyORBIT'
 pyorbit_file = master_directory + '/pyOrbit.py'

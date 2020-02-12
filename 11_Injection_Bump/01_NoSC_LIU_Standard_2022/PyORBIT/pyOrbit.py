@@ -214,14 +214,12 @@ if sts['turn'] < 0:
 	if s['CreateDistn']:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
-                if not rank:
-                        print '\ngenerate_initial_distribution on MPI process: ', rank
-                        # ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-                        Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                print '\ngenerate_initial_distribution on MPI process: ', rank
+                # ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-                        print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-                        bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-                orbit_mpi.MPI_Barrier(comm)
+                print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+                bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
 	else:
 # OR load bunch from file
@@ -444,6 +442,25 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
+        
+        import matplotlib.pyplot as plt
+        
+        plt.rcParams['figure.figsize'] = [8.0, 5.0]
+        plt.rcParams['figure.dpi'] = 300
+        plt.rcParams['savefig.dpi'] = 300
+
+        plt.rcParams['axes.titlesize'] = 14
+        plt.rcParams['axes.labelsize'] = 14
+
+        plt.rcParams['xtick.labelsize'] = 10
+        plt.rcParams['ytick.labelsize'] = 10
+
+        plt.rcParams['font.size'] = 10
+        plt.rcParams['legend.fontsize'] = 10
+
+        plt.rcParams['lines.linewidth'] = 1
+        plt.rcParams['lines.markersize'] = 5
+        
 	PTC_Twiss.PrintOrbitExtrema('.')
 	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
@@ -464,8 +481,9 @@ if not rank:
 	f, ax = matplotlib.pyplot.subplots()
 	for t in TurnList:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
+	ax.set_xlabel('s [m]')
 	ax.set_ylabel('horizontal CO (mm)')
+        ax.grid(lw=0.5, ls=':');
 	# ~ ax.set_xlim(-15,15)
 	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
@@ -478,9 +496,10 @@ if not rank:
 	f, ax = matplotlib.pyplot.subplots()
 	for t in TurnList:
 		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_x (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_x$ [m]')
 	ax.set_ylim(bottom=0)
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
@@ -488,9 +507,10 @@ if not rank:
 	f, ax = matplotlib.pyplot.subplots()
 	for t in TurnList:
 		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_y (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_y$ [m]')
 	ax.set_ylim(bottom=0)
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
@@ -500,8 +520,9 @@ if not rank:
 		beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
 		beta_y = np.array(TwissDict[t]['beta_y'])
 		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_y (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_y$ [m]')
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
@@ -511,8 +532,9 @@ if not rank:
 		beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
 		beta_x = np.array(TwissDict[t]['beta_x'])
 		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_y (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_x$ [m]')
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
