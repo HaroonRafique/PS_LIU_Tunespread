@@ -301,63 +301,61 @@ def generate_initial_distribution_from_tomo_manual_Twiss(parameters, TwissDict, 
 	return output_file
 	
 def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
-	
-	# Get parameters from the lattice
-	parameters['alphax0'] = Lattice.alphax0
-	parameters['betax0']  = Lattice.betax0
-	parameters['alphay0'] = Lattice.alphay0
-	parameters['betay0']  = Lattice.betay0
-	parameters['etax0']   = Lattice.etax0
-	parameters['etapx0']  = Lattice.etapx0
-	parameters['etay0']   = Lattice.etay0
-	parameters['etapy0']  = Lattice.etapy0
-	parameters['x0']      = Lattice.orbitx0
-	parameters['xp0']     = Lattice.orbitpx0
-	parameters['y0']      = Lattice.orbity0
-	parameters['yp0']     = Lattice.orbitpy0
-	parameters['gamma_transition'] = Lattice.gammaT
-	parameters['circumference']    = Lattice.getLength()
-	parameters['length'] = Lattice.getLength()/Lattice.nHarm
-	
-	# Create Twiss containers
-	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
-	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
-	dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
-	dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
-	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
-	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
-
-	# Initialize empty particle arrays
-	x = np.zeros(parameters['n_macroparticles'])
-	xp = np.zeros(parameters['n_macroparticles'])
-	y = np.zeros(parameters['n_macroparticles'])
-	yp = np.zeros(parameters['n_macroparticles'])
-	z = np.zeros(parameters['n_macroparticles'])
-	phi = np.zeros(parameters['n_macroparticles'])
-	dE = np.zeros(parameters['n_macroparticles'])
-
-
-	# Instatiate the classes for longitudinal and transverse distns
-	Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
-	Longitudinal_distribution = LongitudinalDistributionFromTomoscope(parameters['tomo_file'], matfile)
-
-	try: 
-		noise_level = parameters['noise_level']
-	except KeyError:
-		noise_level = 0	
-	t_rand, dE_rand = Longitudinal_distribution.getCoordinates(parameters['n_macroparticles'], noise_level) 
-	z = (t_rand * 1e-9) * speed_of_light * parameters['beta'] # convert ns to s and then m
-	dE = dE_rand * 1e-3 # convert from MeV to GeV
-	
-	# We need to convert z into phi
-	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
-	R = parameters['circumference'] / 2 / np.pi
-	phi = - z * h_main / R
-
 	# Write the distn to a file only on one CPU
 	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
 	if orbit_mpi.MPI_Comm_rank(comm) == 0:
-		
+                # Get parameters from the lattice
+                parameters['alphax0'] = Lattice.alphax0
+                parameters['betax0']  = Lattice.betax0
+                parameters['alphay0'] = Lattice.alphay0
+                parameters['betay0']  = Lattice.betay0
+                parameters['etax0']   = Lattice.etax0
+                parameters['etapx0']  = Lattice.etapx0
+                parameters['etay0']   = Lattice.etay0
+                parameters['etapy0']  = Lattice.etapy0
+                parameters['x0']      = Lattice.orbitx0
+                parameters['xp0']     = Lattice.orbitpx0
+                parameters['y0']      = Lattice.orbity0
+                parameters['yp0']     = Lattice.orbitpy0
+                parameters['gamma_transition'] = Lattice.gammaT
+                parameters['circumference']    = Lattice.getLength()
+                parameters['length'] = Lattice.getLength()/Lattice.nHarm
+                
+                # Create Twiss containers
+                twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
+                twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
+                dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
+                dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
+                closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
+                closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
+
+                # Initialize empty particle arrays
+                x = np.zeros(parameters['n_macroparticles'])
+                xp = np.zeros(parameters['n_macroparticles'])
+                y = np.zeros(parameters['n_macroparticles'])
+                yp = np.zeros(parameters['n_macroparticles'])
+                z = np.zeros(parameters['n_macroparticles'])
+                phi = np.zeros(parameters['n_macroparticles'])
+                dE = np.zeros(parameters['n_macroparticles'])
+
+
+                # Instatiate the classes for longitudinal and transverse distns
+                Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
+                Longitudinal_distribution = LongitudinalDistributionFromTomoscope(parameters['tomo_file'], matfile)
+
+                try: 
+                        noise_level = parameters['noise_level']
+                except KeyError:
+                        noise_level = 0	
+                t_rand, dE_rand = Longitudinal_distribution.getCoordinates(parameters['n_macroparticles'], noise_level) 
+                z = (t_rand * 1e-9) * speed_of_light * parameters['beta'] # convert ns to s and then m
+                dE = dE_rand * 1e-3 # convert from MeV to GeV
+                
+                # We need to convert z into phi
+                h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+                R = parameters['circumference'] / 2 / np.pi
+                phi = - z * h_main / R
+
 		with open(output_file,"w") as fid:
 			
 			csv_writer = csv.writer(fid, delimiter=' ')
