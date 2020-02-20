@@ -475,7 +475,7 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 				map(lambda key: fid.write(key + ' = ' + str(parameters[key]) + '\n'), parameters)
 		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
 
-	orbit_mpi.MPI_Barrier(comm)
+	else:orbit_mpi.MPI_Barrier(comm)
 
 	return output_file
 
