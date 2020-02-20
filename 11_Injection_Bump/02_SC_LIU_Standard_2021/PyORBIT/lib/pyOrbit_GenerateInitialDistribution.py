@@ -396,8 +396,9 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 				
 		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
 
-        print '\n\t\tMPI_Barrier on MPI process: ', orbit_mpi.MPI_Comm_rank(comm)
-	orbit_mpi.MPI_Barrier(comm)
+	else: 
+                print '\n\t\tMPI_Barrier on MPI process: ', orbit_mpi.MPI_Comm_rank(comm)
+                orbit_mpi.MPI_Barrier(comm)
         
         print '\n\t\tMPI_Barrier complete on MPI process: ', orbit_mpi.MPI_Comm_rank(comm)
         
@@ -475,7 +476,7 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 				map(lambda key: fid.write(key + ' = ' + str(parameters[key]) + '\n'), parameters)
 		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
 
-	else:orbit_mpi.MPI_Barrier(comm)
+	orbit_mpi.MPI_Barrier(comm)
 
 	return output_file
 
