@@ -1,6 +1,6 @@
 import shutil
 
-pyorbit = True
+pyorbit = False
 simulation_parameters = False
 flat_files = False
 tune_files = False
