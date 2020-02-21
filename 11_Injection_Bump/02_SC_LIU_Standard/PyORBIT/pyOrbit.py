@@ -118,7 +118,7 @@ if not os.path.exists(status_file):
 else:
 	with open(status_file) as fid:
 		sts = pickle.load(fid)
-
+                
 # Generate Lattice (MADX + PTC) - Use MPI to run on only one 'process'
 #-----------------------------------------------------------------------
 print '\nStart MADX on MPI process: ', rank
@@ -127,7 +127,10 @@ if not rank:
 		pass
 	else:
 		os.system("./Create_FF_and_Tables.sh")
+                
+print '\n\tmadx orbit_mpi.MPI_Barrier(comm) called on MPI process: ', rank
 orbit_mpi.MPI_Barrier(comm)
+print '\n\tmadx orbit_mpi.MPI_Barrier(comm) complete on MPI process: ', rank
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
@@ -136,10 +139,18 @@ from lib.write_ptc_table import write_RFtable
 from simulation_parameters import RFparameters as RF 
 if not rank:
 	if os.path.exists('../PTC-PyORBIT_Tables/'):
+                print '\n\t ../PTC-PyORBIT_Tables/ exists on MPI process: ', rank
 		pass
 	else:
-                mpi_mkdir_p('../PTC-PyORBIT_Tables')
-        write_RFtable('../PTC-PyORBIT_Tables/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
+                print '\n\t creating ../PTC-PyORBIT_Tables/ on MPI process: ', rank
+                os.makedirs('../PTC-PyORBIT_Tables')
+
+print '\n\trf_table orbit_mpi.MPI_Barrier(comm) called on MPI process: ', rank
+orbit_mpi.MPI_Barrier(comm)
+print '\n\trf_table orbit_mpi.MPI_Barrier(comm) complete on MPI process: ', rank
+
+print '\n\t write_RFtable on MPI process: ', rank
+write_RFtable('../PTC-PyORBIT_Tables/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
 
 # Initialize a Teapot-Style PTC lattice
 #-----------------------------------------------------------------------
