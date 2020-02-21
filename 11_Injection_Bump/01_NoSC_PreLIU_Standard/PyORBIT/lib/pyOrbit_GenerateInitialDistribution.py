@@ -200,7 +200,7 @@ class LongitudinalJohoDistributionSingleHarmonic():
 				# ~ print '\n### Generate Initial Dsitribution 2: Returned LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
 				break
 		return phi, dE
-
+	
 def generate_initial_distribution_from_tomo_manual_Twiss(parameters, TwissDict, matfile=0, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 
 	# Get parameters from the TwissDict dictionary
@@ -396,9 +396,10 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 				
 		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
 
-	#orbit_mpi.MPI_Barrier(comm)
+        # ~ print '\n\t\tMPI_Barrier called on MPI process: ', orbit_mpi.MPI_Comm_rank(comm)
+        orbit_mpi.MPI_Barrier(comm)        
+        # ~ print '\n\t\tMPI_Barrier complete on MPI process: ', orbit_mpi.MPI_Comm_rank(comm)
         
-        #print '\ngenerate_initial_distribution_from_tomo::MPI Barrier check'
 
 	return output_file
 

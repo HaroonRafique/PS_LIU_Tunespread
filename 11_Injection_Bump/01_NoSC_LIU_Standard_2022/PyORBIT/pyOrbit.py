@@ -118,7 +118,7 @@ if not os.path.exists(status_file):
 else:
 	with open(status_file) as fid:
 		sts = pickle.load(fid)
-
+                
 # Generate Lattice (MADX + PTC) - Use MPI to run on only one 'process'
 #-----------------------------------------------------------------------
 print '\nStart MADX on MPI process: ', rank
@@ -127,7 +127,10 @@ if not rank:
 		pass
 	else:
 		os.system("./Create_FF_and_Tables.sh")
+                
+print '\n\tmadx orbit_mpi.MPI_Barrier(comm) called on MPI process: ', rank
 orbit_mpi.MPI_Barrier(comm)
+print '\n\tmadx orbit_mpi.MPI_Barrier(comm) complete on MPI process: ', rank
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
@@ -136,10 +139,18 @@ from lib.write_ptc_table import write_RFtable
 from simulation_parameters import RFparameters as RF 
 if not rank:
 	if os.path.exists('../PTC-PyORBIT_Tables/'):
+                print '\n\t ../PTC-PyORBIT_Tables/ exists on MPI process: ', rank
 		pass
 	else:
-                mpi_mkdir_p('../PTC-PyORBIT_Tables')
-        write_RFtable('../PTC-PyORBIT_Tables/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
+                print '\n\t creating ../PTC-PyORBIT_Tables/ on MPI process: ', rank
+                os.makedirs('../PTC-PyORBIT_Tables')
+
+print '\n\trf_table orbit_mpi.MPI_Barrier(comm) called on MPI process: ', rank
+orbit_mpi.MPI_Barrier(comm)
+print '\n\trf_table orbit_mpi.MPI_Barrier(comm) complete on MPI process: ', rank
+
+print '\n\t write_RFtable on MPI process: ', rank
+write_RFtable('../PTC-PyORBIT_Tables/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
 
 # Initialize a Teapot-Style PTC lattice
 #-----------------------------------------------------------------------
@@ -214,14 +225,12 @@ if sts['turn'] < 0:
 	if s['CreateDistn']:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
-                if not rank:
-                        print '\ngenerate_initial_distribution on MPI process: ', rank
-                        # ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-                        Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                print '\ngenerate_initial_distribution on MPI process: ', rank
+                # ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-                        print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-                        bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-                orbit_mpi.MPI_Barrier(comm)
+                print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+                bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
 	else:
 # OR load bunch from file
@@ -444,6 +453,25 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
+        
+        import matplotlib.pyplot as plt
+        
+        plt.rcParams['figure.figsize'] = [8.0, 5.0]
+        plt.rcParams['figure.dpi'] = 300
+        plt.rcParams['savefig.dpi'] = 300
+
+        plt.rcParams['axes.titlesize'] = 14
+        plt.rcParams['axes.labelsize'] = 14
+
+        plt.rcParams['xtick.labelsize'] = 10
+        plt.rcParams['ytick.labelsize'] = 10
+
+        plt.rcParams['font.size'] = 10
+        plt.rcParams['legend.fontsize'] = 10
+
+        plt.rcParams['lines.linewidth'] = 1
+        plt.rcParams['lines.markersize'] = 5
+        
 	PTC_Twiss.PrintOrbitExtrema('.')
 	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
@@ -464,8 +492,9 @@ if not rank:
 	f, ax = matplotlib.pyplot.subplots()
 	for t in TurnList:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
+	ax.set_xlabel('s [m]')
 	ax.set_ylabel('horizontal CO (mm)')
+        ax.grid(lw=0.5, ls=':');
 	# ~ ax.set_xlim(-15,15)
 	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
@@ -478,9 +507,10 @@ if not rank:
 	f, ax = matplotlib.pyplot.subplots()
 	for t in TurnList:
 		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_x (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_x$ [m]')
 	ax.set_ylim(bottom=0)
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
@@ -488,9 +518,10 @@ if not rank:
 	f, ax = matplotlib.pyplot.subplots()
 	for t in TurnList:
 		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_y (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_y$ [m]')
 	ax.set_ylim(bottom=0)
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
@@ -500,8 +531,9 @@ if not rank:
 		beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
 		beta_y = np.array(TwissDict[t]['beta_y'])
 		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_y (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_y$ [m]')
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
@@ -511,8 +543,9 @@ if not rank:
 		beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
 		beta_x = np.array(TwissDict[t]['beta_x'])
 		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
-	ax.set_xlabel('s (m)')
-	ax.set_ylabel('beta_y (m)')
+	ax.set_xlabel('s [m]')
+	ax.set_ylabel(r'$\beta_x$ [m]')
+        ax.grid(lw=0.5, ls=':');
 	savename = str('Plots/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
 	matplotlib.pyplot.savefig(savename, dpi=400)
 
