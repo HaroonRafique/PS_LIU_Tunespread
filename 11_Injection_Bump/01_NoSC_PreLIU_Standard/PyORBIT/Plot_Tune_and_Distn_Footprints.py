@@ -203,7 +203,7 @@ print '\n\tPLOTTING SCRIPT: TUNE AND DISTRIBUTION FOOTPRINTS FROM PTC-PYORBIT BU
 
 LIU = False
 
-TUNE = True
+TUNE = False
 XY = True
 XXP = True
 YYP = True
@@ -215,7 +215,7 @@ Y_Profile = True
 tune_tit = '(6.21, 6.245)'
 tune_sav = '6p21_6p245' 
 sc = 'SbS'
-main_label = 'PreLIU_Standard'
+main_label = 'PreLIU_Standard' 
 
 source_dir =  './01_NoSC_PreLIU_Standard/PyORBIT/bunch_output/'
 save_folder = source_dir
