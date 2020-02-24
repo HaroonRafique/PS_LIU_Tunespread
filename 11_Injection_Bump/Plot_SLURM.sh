@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=08_PLT
+#SBATCH --job-name=11_PLT
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
 #SBATCH --nodes=1
