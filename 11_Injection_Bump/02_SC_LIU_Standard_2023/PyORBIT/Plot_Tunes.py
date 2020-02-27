@@ -1174,14 +1174,14 @@ def plot_optics(sc, dd, filename):
 	
 # Create dd dictionary
 dd = dict()
-dd = add_input_file(dd, 'output/output.mat', '6.10')
+dd = add_input_file(dd, 'output/output.mat', 'SbS_LIU_Standard_2023')
 print 'Final data dictionary keys: ', dd.keys()
 
-sc = 'Slice-by-Slice'
-main_label = '03'
+sc = 'SbS'
+main_label = 'SbS_LIU_Standard_2023'
 main_label2 = main_label + '_zoom'
 scaled_label = main_label + '_scaled'
-legend_label = r'$Q_y$'
+legend_label = ''
 turn_tot = None
 zoom_turns = 15
 turns = [0, 1, 10, 100, 199, 874, 2185]

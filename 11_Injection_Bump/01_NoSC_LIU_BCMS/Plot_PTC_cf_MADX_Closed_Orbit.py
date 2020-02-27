@@ -30,7 +30,6 @@ plt.rcParams['lines.markersize'] = 5
 
 print '\n\PTC MAD-X Injection Bump Comparison Plotting Script Started\n'
 
-
 ptc_extensions = ('.ptc')		# All outputs are .ptc files
 ptc_iterators = []				# Integers (turn) used to iterate over files
 
@@ -163,7 +162,7 @@ print '\n\tStart Plotting\n'
 
 #------------------------PTC cf MADX no limits--------------------------
 fig, ax1 = plt.subplots();
-plt.title("PTC vs MADX Injection Closure Tune Swing");
+plt.title("PTC vs MADX Injection Closure Closed Orbit");
 
 # colormap 
 colors = cm.rainbow(np.linspace(0, 1, len(ptc_iterators)))
@@ -200,12 +199,12 @@ print '\n\tPTC cf MADX no limits plot done\n'
 #--------------------------PTC cf MADX zoom-----------------------------
 
 fig, ax1 = plt.subplots();
-plt.title("PTC vs MADX Injection Closure Tune Swing");
+plt.title("PTC vs MADX Injection Closure Closed Orbit");
 
 # colormap 
 colors = cm.rainbow(np.linspace(0, 1, len(ptc_iterators)))
 
-ax1.set_xlim(470.0, 510.0)
+ax1.set_xlim(470.0, 500.0)
 
 ax1.set_xlabel("S [m]");
 ax1.set_ylabel("x [mm]");
@@ -255,12 +254,12 @@ print '\n\tPTC cf MADX zoom plot done\n'
 #-----------------------------MADX zoom---------------------------------
 
 fig, ax1 = plt.subplots();
-plt.title("MADX Injection Closure Tune Swing");
+plt.title("MADX Injection Closure Closed Orbit");
 
 # colormap 
 colors = cm.rainbow(np.linspace(0, 1, len(ptc_iterators)))
 
-ax1.set_xlim(470.0, 510.0)
+ax1.set_xlim(470.0, 500.0)
 
 ax1.set_xlabel("S [m]");
 ax1.set_ylabel("x [mm]");
@@ -300,7 +299,7 @@ print '\n\tMADX zoom plot done\n'
 #---------------------------MADX no limits------------------------------
 
 fig, ax1 = plt.subplots();
-plt.title("MADX Injection Closure Tune Swing");
+plt.title("MADX Injection Closure Closed Orbit");
 
 # colormap 
 colors = cm.rainbow(np.linspace(0, 1, len(ptc_iterators)))
@@ -331,12 +330,12 @@ print '\n\tMADX no limits plot done\n'
 #--------------------------------PTC Zoom-------------------------------
 
 fig, ax1 = plt.subplots();
-plt.title("PTC Injection Closure Tune Swing");
+plt.title("PTC Injection Closure Closed Orbit");
 
 # colormap 
 colors = cm.rainbow(np.linspace(0, 1, len(ptc_iterators)))
 
-ax1.set_xlim(470.0, 510.0)
+ax1.set_xlim(470.0, 500.0)
 
 ax1.set_xlabel("S [m]");
 ax1.set_ylabel("x [mm]");
@@ -380,7 +379,7 @@ print '\n\tPTC Zoom plot done\n'
 #------------------------------PTC no limits----------------------------
 
 fig, ax1 = plt.subplots();
-plt.title("PTC Injection Closure Tune Swing");
+plt.title("PTC Injection Closure Closed Orbit");
 
 # colormap 
 colors = cm.rainbow(np.linspace(0, 1, len(ptc_iterators)))
