@@ -4,6 +4,7 @@ master_dir = os.getcwd()
 
 locations = []
 
+locations.append('/00')
 locations.append('/01')
 locations.append('/02')
 locations.append('/03')
@@ -15,15 +16,6 @@ locations.append('/08')
 locations.append('/09')
 locations.append('/10')
 locations.append('/11')
-locations.append('/12')
-locations.append('/13')
-locations.append('/14')
-locations.append('/15')
-locations.append('/16')
-locations.append('/17')
-locations.append('/18')
-locations.append('/19')
-locations.append('/20')
 
 for loc in locations:
 	print '---------------------------------------------------------------------------'

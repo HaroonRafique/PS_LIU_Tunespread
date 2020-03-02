@@ -19,10 +19,10 @@ digits = int(cwd[-2:]) # Use last 2 digits to select our voltage
 
 voltages = []
 v_step = 0.2 #kV
-steps = 21
+steps = 11
 for i in range(steps):
-    # Middle value must be 41.8kV
-    min_voltage = 41.8 - ((steps - 1)/2 * v_step)
+    # Middle selected as 45kV
+    min_voltage = 45 - ((steps - 1)/2 * v_step)
     rf_voltage = round_sig(min_voltage + (i*v_step),3)        
     voltages.append(replace_point_with_p(str(rf_voltage)))
         

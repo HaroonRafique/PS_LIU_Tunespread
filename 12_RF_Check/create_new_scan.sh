@@ -22,6 +22,7 @@ folder_in=00_Master
 #~ cp -r ${folder_in} ${folder_out}_18
 #~ cp -r ${folder_in} ${folder_out}_19
 
+cp -r ${folder_in} 00
 cp -r ${folder_in} 01
 cp -r ${folder_in} 02
 cp -r ${folder_in} 03
@@ -33,12 +34,3 @@ cp -r ${folder_in} 08
 cp -r ${folder_in} 09
 cp -r ${folder_in} 10
 cp -r ${folder_in} 11
-cp -r ${folder_in} 12
-cp -r ${folder_in} 13
-cp -r ${folder_in} 14
-cp -r ${folder_in} 15
-cp -r ${folder_in} 16
-cp -r ${folder_in} 17
-cp -r ${folder_in} 18
-cp -r ${folder_in} 19
-cp -r ${folder_in} 20
