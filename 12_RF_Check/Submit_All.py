@@ -23,6 +23,7 @@ locations = []
 	locations.append('/17')
 	locations.append('/18')
 	locations.append('/19')
+	locations.append('/20')
 
 for loc in locations:
 	print '---------------------------------------------------------------------------'
