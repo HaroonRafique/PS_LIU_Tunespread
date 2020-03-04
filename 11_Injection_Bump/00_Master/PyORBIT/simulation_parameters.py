@@ -5,7 +5,7 @@ parameters = {}
 parameters['Machine']			= 'LIU' #'PreLIU' 
 parameters['Beam']			= 'Standard'#'BCMS'
 
-ramp_up  = True
+ramp_up  = False
 parameters['Year']			= '2021'
 # ~ parameters['Year']			= '2022'
 # ~ parameters['Year']			= '2023'

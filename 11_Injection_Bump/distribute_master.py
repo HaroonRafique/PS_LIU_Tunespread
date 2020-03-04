@@ -1,7 +1,7 @@
 import shutil
 
 pyorbit = True
-simulation_parameters = True
+simulation_parameters = False # Not a good idea - resets all sims to master settings (arbitrary)
 flat_files = False
 tune_files = False
 distn_gen = False

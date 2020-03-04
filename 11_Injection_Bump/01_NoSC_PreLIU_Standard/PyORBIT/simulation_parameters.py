@@ -2,10 +2,10 @@ import numpy as np
 
 parameters = {}
 
-parameters['Machine']			= 'LIU' #'PreLIU' 
+parameters['Machine']			= 'PreLIU' #'PreLIU' 
 parameters['Beam']			= 'Standard'#'BCMS'
 
-ramp_up  = True
+ramp_up  = False
 parameters['Year']			= '2021'
 # ~ parameters['Year']			= '2022'
 # ~ parameters['Year']			= '2023'
@@ -98,7 +98,7 @@ parameters['turns_update'] = sorted(tu)
 switches = {
 	'CreateDistn':	True,
 	'Update_Twiss':	True,
-	'Space_Charge': True,
+	'Space_Charge': False,
 	'GridSizeX':    128,
 	'GridSizeY':    128,
 	'GridSizeZ':    64
