@@ -1,10 +1,10 @@
 import shutil
 
 pyorbit = True
-simulation_parameters = False
+simulation_parameters = True
 flat_files = False
 tune_files = False
-distn_gen = True
+distn_gen = False
 
 master_directory = './00_Master/PyORBIT'
 pyorbit_file = master_directory + '/pyOrbit.py'

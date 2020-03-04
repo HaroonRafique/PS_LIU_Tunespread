@@ -63,6 +63,69 @@ comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
 rank = orbit_mpi.MPI_Comm_rank(comm)
 print '\n\tStart PyORBIT simulation on MPI process: ', rank
 
+########################################################################
+# Read PTC Twiss and return dictionary of columns/values
+########################################################################
+def Read_PTC_Twiss_Return_Dict(filename, verbose=True):
+    # Dictionary for output
+    d = dict()
+    d['HEADER_FILENAME'] = filename
+    keywords = ''
+    
+    # First we open and count header lines
+    fin0=open(filename,'r').readlines()
+    headerlines = 0
+    for l in fin0:
+        # Store each header line
+        headerlines = headerlines + 1
+        # Stop if we find the line starting '* NAME'
+        if '* NAME' in l:
+            keywords = l
+            break
+        # Store the headers as d['HEADER_<name>'] = <value>
+        else:
+            #try:
+            #    d[str('HEADER_'+l.split()[1])]=[float(l.split()[-1])]     
+            #except ValueError:
+            #    d[str('HEADER_'+l.split()[1])]=[str(l.split()[-1])]   
+            if '"' in l:
+                d[str('HEADER_'+l.split()[1])]=[str(l.split('"')[1])]
+            else:
+                d[str('HEADER_'+l.split()[1])]=[float(l.split()[-1])]                 
+    headerlines = headerlines + 1    
+    
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict found Keywords: \n',keywords
+    
+    # Make a list of column keywords to return (as an aid to iterating)
+    dict_keys = []
+    for key in keywords.split():
+        dict_keys.append(key)
+    dict_keys.remove('*')
+    
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict Dict Keys: \n',dict_keys
+    
+    # Initialise empty dictionary entries for column keywords 
+    for key in dict_keys:
+        d[key]=[]
+        
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict header only dictionary \n', d
+    
+    # Strip header
+    fin1=open(filename,'r').readlines()[headerlines:]   
+    
+    # Populate the dictionary line by line
+    for l in fin1:
+        i = -1        
+        for value in l.split():
+            i = i+1
+            if 'NAME' in dict_keys[i]:
+                d[dict_keys[i]].append(str(value))
+            else:
+                d[dict_keys[i]].append(float(value))    
+                
+    # Return list of column keywords 'dict_keys', and dictionary 'd'
+    return dict_keys, d
+
 # Function to check that a file isn't empty (common PTC file bug)
 def is_non_zero_file(fpath):  
 	print '\n\t\t\tis_non_zero_file:: Checking file ', fpath
@@ -203,22 +266,24 @@ if sts['turn'] < 0:
 	for i in p:
 		print '\t', i, '\t = \t', p[i]
 
+        d_keys, d = Read_PTC_Twiss_Return_Dict(p['LatticeFile'])
+
 	twiss_dict = dict()
-	twiss_dict['alpha_x'] 		= Lattice.alphax0
-	twiss_dict['alpha_y'] 		= Lattice.alphay0 
-	twiss_dict['beta_x'] 		= Lattice.betax0
-	twiss_dict['beta_y'] 		= Lattice.betay0
-	twiss_dict['D_x'] 		= Lattice.etax0
-	twiss_dict['D_y'] 		= Lattice.etay0
-	twiss_dict['D_xp'] 		= Lattice.etapx0
-	twiss_dict['D_yp'] 		= Lattice.etapy0
-	twiss_dict['x0'] 		= Lattice.orbitx0
-	twiss_dict['xp0'] 		= Lattice.orbitpx0
-	twiss_dict['y0'] 		= Lattice.orbity0
-	twiss_dict['yp0'] 		= Lattice.orbitpy0
-	twiss_dict['gamma_transition'] 	= Lattice.gammaT
-	twiss_dict['circumference']     = Lattice.getLength()
-	twiss_dict['length'] 		= Lattice.getLength()/Lattice.nHarm
+        twiss_dict['alpha_x'] 	= d['ALFX'][0]
+        twiss_dict['alpha_y'] 	= d['ALFY'][0]
+        twiss_dict['beta_x'] 	= d['BETX'][0]
+        twiss_dict['beta_y'] 	= d['BETY'][0]
+        twiss_dict['D_x'] 		= d['DISP1'][0]
+        twiss_dict['D_y'] 		= d['DISP3'][0]
+        twiss_dict['D_xp'] 		= d['DISP2'][0]
+        twiss_dict['D_yp'] 		= d['DISP4'][0]
+        twiss_dict['x0'] 		= d['X'][0]
+        twiss_dict['xp0'] 		= d['PX'][0]
+        twiss_dict['y0'] 		= d['Y'][0]
+        twiss_dict['yp0'] 		= d['PY'][0]
+        twiss_dict['gamma_transition'] 	= Lattice.gammaT
+        twiss_dict['circumference']     = Lattice.getLength()
+        twiss_dict['length'] 		= Lattice.getLength()/Lattice.nHarm
         
         print twiss_dict
 
@@ -226,8 +291,8 @@ if sts['turn'] < 0:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
                 print '\ngenerate_initial_distribution on MPI process: ', rank
-                # ~ Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-                Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+                # ~ Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
                 print '\bunch_orbit_to_pyorbit on MPI process: ', rank
                 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.

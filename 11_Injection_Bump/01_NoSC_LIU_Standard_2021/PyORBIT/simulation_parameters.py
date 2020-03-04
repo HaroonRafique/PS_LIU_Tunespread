@@ -66,18 +66,20 @@ elif parameters['Machine'] is 'LIU':
 		parameters['dpp_rms']		= 1.1E-03
 		parameters['rf_voltage']	= 0.03655 # 36.55 kV
 
-c 					= 299792458
-parameters['circumference']		= 2*np.pi*100
-parameters['beta'] 		        = np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
-parameters['TransverseCut']		= 5
-parameters['macrosize']			= parameters['intensity']/float(parameters['n_macroparticles'])
+c 				= 299792458
+parameters['circumference']	= 2*np.pi*100
+parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
+parameters['TransverseCut']	= 5
+parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
 if ramp_up:
-        parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
+        parameters['tomo_file']	='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
 else:
-        parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'.mat'
+        parameters['tomo_file']	='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'.mat'
 
-parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
-parameters['sig_z'] 	                = (parameters['beta'] * c * parameters['blength'])/4.
+parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
+parameters['sig_z'] 	        = (parameters['beta'] * c * parameters['blength'])/4.
+parameters['LatticeFile']       = '../PTC_Twiss/1.ptc'
+
 
 # Only used with parabolic distn
 #parameters['LongitudinalJohoParameter']= 1.2   
@@ -96,7 +98,7 @@ parameters['turns_update'] = sorted(tu)
 switches = {
 	'CreateDistn':	True,
 	'Update_Twiss':	True,
-	'Space_Charge': False,
+	'Space_Charge': True,
 	'GridSizeX':    128,
 	'GridSizeY':    128,
 	'GridSizeZ':    64

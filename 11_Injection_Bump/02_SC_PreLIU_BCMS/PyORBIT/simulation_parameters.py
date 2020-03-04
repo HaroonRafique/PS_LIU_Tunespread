@@ -2,8 +2,13 @@ import numpy as np
 
 parameters = {}
 
-parameters['Machine']			= 'PreLIU' #'LIU' 
-parameters['Beam']			= 'BCMS'#'Standard'
+parameters['Machine']			= 'LIU' #'PreLIU' 
+parameters['Beam']			= 'Standard'#'BCMS'
+
+ramp_up  = True
+parameters['Year']			= '2021'
+# ~ parameters['Year']			= '2022'
+# ~ parameters['Year']			= '2023'
 
 parameters['tunex']			= '621'
 parameters['tuney']			= '624'
@@ -35,12 +40,23 @@ elif parameters['Machine'] is 'LIU':
 	parameters['gamma'] 	                = 3.131540798
 	if parameters['Beam'] is 'Standard':
 		parameters['intensity']		= 32.5E+11
-		parameters['epsn_x']		= 1.8E-6
-		parameters['epsn_y']		= 1.8E-6
-		parameters['bunch_length']	= 205e-9
-		parameters['blength']		= 205e-9
-		parameters['dpp_rms']		= 1.5E-03
-		parameters['rf_voltage']	= 0.0418 # 41.8 kV
+		parameters['epsn_x']		= 1.88E-6
+		parameters['epsn_y']		= 1.88E-6                
+                if parameters['Year'] is '2021':
+                        parameters['bunch_length']	= 135E-9
+                        parameters['blength']		= 135E-9
+                        parameters['dpp_rms']		= 1.1E-03
+                        parameters['rf_voltage']	= 0.04225 # 42.25 kV
+                elif parameters['Year'] is '2022':
+                        parameters['bunch_length']	= 170E-9
+                        parameters['blength']		= 170E-9
+                        parameters['dpp_rms']		= 1.3E-03
+                        parameters['rf_voltage']	= 0.0426 # 42.6 kV
+                elif parameters['Year'] is '2023':
+                        parameters['bunch_length']	= 205E-9
+                        parameters['blength']		= 205E-9
+                        parameters['dpp_rms']		= 1.5E-03
+                        parameters['rf_voltage']	= 0.0418 # 41.8 kV
 	elif parameters['Beam'] is 'BCMS':
 		parameters['intensity']		= 16.25E+11
 		parameters['epsn_x']		= 1.43E-6
@@ -50,13 +66,20 @@ elif parameters['Machine'] is 'LIU':
 		parameters['dpp_rms']		= 1.1E-03
 		parameters['rf_voltage']	= 0.03655 # 36.55 kV
 
-c 					= 299792458
-parameters['circumference']		= 2*np.pi*100
-parameters['beta'] 		        = np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
-parameters['TransverseCut']		= 5
-parameters['macrosize']			= parameters['intensity']/float(parameters['n_macroparticles'])
-parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'.mat'
-parameters['sig_z'] 	                = (parameters['beta'] * c * parameters['blength'])/4.
+c 				= 299792458
+parameters['circumference']	= 2*np.pi*100
+parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
+parameters['TransverseCut']	= 5
+parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
+if ramp_up:
+        parameters['tomo_file']	='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
+else:
+        parameters['tomo_file']	='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'.mat'
+
+parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
+parameters['sig_z'] 	        = (parameters['beta'] * c * parameters['blength'])/4.
+parameters['LatticeFile']       = '../PTC_Twiss/1.ptc'
+
 
 # Only used with parabolic distn
 #parameters['LongitudinalJohoParameter']= 1.2   
