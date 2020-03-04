@@ -2,8 +2,8 @@
 @ TYPE             %04s "USER"
 @ TITLE            %36s "Flat file generation for PTC-PyORBIT"
 @ ORIGIN           %22s "MAD-X 5.02.00 Linux 64"
-@ DATE             %08s "21/02/20"
-@ TIME             %08s "12.40.09"
+@ DATE             %08s "04/03/20"
+@ TIME             %08s "12.35.41"
 *      BSEXT_T        BSW40       K2_S40 
 $          %le          %le          %le 
      0.000000    -0.003498    -0.000000
