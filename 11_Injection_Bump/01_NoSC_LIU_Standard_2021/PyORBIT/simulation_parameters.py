@@ -76,7 +76,6 @@ if ramp_up:
 else:
         parameters['tomo_file']	='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'.mat'
 
-parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_'+parameters['Beam']+'_'+parameters['Machine']+'_'+parameters['Year']+'.mat'
 parameters['sig_z'] 	        = (parameters['beta'] * c * parameters['blength'])/4.
 parameters['LatticeFile']       = '../PTC_Twiss/1.ptc'
 
