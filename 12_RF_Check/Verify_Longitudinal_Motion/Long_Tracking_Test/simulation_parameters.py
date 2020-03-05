@@ -42,7 +42,7 @@ parameters['tunex']				= '621'
 parameters['tuney']				= '624'
 
 parameters['lattice_start'] 	= 'BWSH65'
-parameters['n_macroparticles']	= int(5E5)
+parameters['n_macroparticles']	= int(21)
 
 # LIU parameters: 2GeV
 parameters['gamma'] 			= 3.131540798
