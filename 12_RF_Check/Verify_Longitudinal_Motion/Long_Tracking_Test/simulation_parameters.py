@@ -16,8 +16,8 @@ def is_non_zero_file(fpath):
 
 cwd = os.getcwd() # Get the present directory
 folder = cwd.split('/')[-1]
-sc = int(folder[:2])
-digits = int(folder[-2:]) # Use last 2 digits to select our voltage
+sc = 0 #int(folder[:2])
+digits = 0 # Use last 2 digits to select our voltage
 
 voltages = []
 v_step = 0.2 #kV
