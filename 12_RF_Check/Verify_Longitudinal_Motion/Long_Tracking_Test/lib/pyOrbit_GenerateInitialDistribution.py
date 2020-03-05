@@ -786,7 +786,7 @@ def generate_initial_long_poincare_distribution(parameters, Lattice, output_file
                         max_dpp = parameters['LongitudinalCut'] * parameters['dpp_rms']
                         # min_dpp = -1* max_dpp                        
                         dpps = seq_even_about_start(parameters['n_macroparticles'], 0, max_dpp)
-                        if len(dpps) !== (parameters['n_macroparticles']):
+                        if len(dpps) != (parameters['n_macroparticles']):
                                 print 'pyOrbit_GenerateInitialDistribution::generate_initial_long_poincare_distribution::ERROR: Length of dpps not equal to number of macroparticles'
                         
 			for i in range(parameters['n_macroparticles']):
