@@ -63,7 +63,8 @@ parameters['circumference']		= 2*np.pi*100
 parameters['phi_s']				= 0
 parameters['macrosize']			= parameters['intensity']/float(parameters['n_macroparticles'])
 
-parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_'+parameters['str_voltage']+'_'+parameters['Year']+'.mat'
+# ~ parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_'+parameters['str_voltage']+'_'+parameters['Year']+'.mat'
+parameters['tomo_file']			='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_41p8_2023.mat'
 is_non_zero_file(parameters['tomo_file'])
 
 c 						= 299792458
@@ -84,8 +85,7 @@ switches = {
 	'GridSizeX': 128,
 	'GridSizeY': 128,
 	'GridSizeZ': 64
-}
-        
+}        
 
 # PTC RF Table Parameters
 harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
