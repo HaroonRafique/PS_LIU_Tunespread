@@ -31,7 +31,7 @@ parameters['tunex']				= '621'
 parameters['tuney']				= '624'
 
 parameters['lattice_start'] 	= 'BWSH65'
-parameters['n_macroparticles']	= int(21)
+parameters['n_macroparticles']	= int(11)
 
 # LIU parameters: 2GeV
 parameters['gamma'] 			= 3.131540798
@@ -70,7 +70,7 @@ is_non_zero_file(parameters['tomo_file'])
 c 						= 299792458
 parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
 
-parameters['turns_max'] = int(10) #int(1.5E3)
+parameters['turns_max'] = int(1000) #int(1.5E3)
 tu1 = range(-1, parameters['turns_max'], 100)
 #tu2 = range(0, 50)
 tu =  tu1
