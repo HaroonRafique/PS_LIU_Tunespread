@@ -484,7 +484,7 @@ test_str = 'x'
 test = particle_output.ReturnCoOrdinate(0, test_str, 0)
 print 'test particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
 
-t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 0))
+t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 0), p['beta'])
 print 't_test = ', t_test
 
 dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 0), p['energy'], p['beta'] )
