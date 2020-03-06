@@ -80,7 +80,7 @@ is_non_zero_file(parameters['tomo_file'])
 c 						= 299792458
 parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
 
-parameters['turns_max'] = int(1.5E3)
+parameters['turns_max'] = int(10) #int(1.5E3)
 tu1 = range(-1, parameters['turns_max'], 100)
 #tu2 = range(0, 50)
 tu =  tu1

@@ -8,6 +8,10 @@ import scipy.io as sio
 from scipy.stats import moment
 import os
 
+# plotting 
+import matplotlib
+matplotlib.use('Agg')
+
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
@@ -48,6 +52,7 @@ from lib.save_bunch_as_matfile import *
 from lib.suppress_stdout import suppress_STDOUT
 from lib.pyOrbit_Bunch_Gather import *
 from lib.pyOrbit_Tunespread_Calculator import *
+from lib.pyOrbit_ParticleOutputDictionary import *
 from lib.pyOrbit_GenerateInitialDistribution import *
 from lib.pyOrbit_PrintLatticeFunctionsFromPTC import *
 from lib.pyOrbit_PTCLatticeFunctionsDictionary import *
@@ -83,6 +88,31 @@ def GetTunesFromPTC():
 		Qy = (float(first_line.split()[3]))
 	os.system('rm TWISS_PTC_table.OUT')
 	return Qx, Qy
+
+# simple sequence
+def seq_start_to_end(n_vals, start, stop):
+    n_mp = n_vals
+    interval = (stop-start)/(n_mp-1) 
+
+    print('seq_even_about_start::interval = ', interval)
+
+    positions = np.arange(start, stop+interval, interval)
+    
+    return positions
+    
+def check_if_fig_exists(name):
+    ret_val = False
+    if os.path.isfile(name):
+        print name, ' already exists, plotting skipped'
+        ret_val = True
+    return ret_val
+    
+def z_to_time(z, beta): 
+    c = 299792458
+    return z / (c * beta)
+
+def dpp_from_dE(dE, E, beta):
+    return (dE / (E * beta**2))
 
 # Create folder structure
 #-----------------------------------------------------------------------
@@ -364,6 +394,16 @@ output.update()
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 
+# Define particle output dictionary - automatically adds first particle
+#-----------------------------------------------------------------------
+particle_output = Particle_output_dictionary()
+
+for i in range(p['n_macroparticles']):
+        if i is 0:
+                pass
+        else:
+                particle_output.AddNewParticle(i)
+                
 # Track
 #-----------------------------------------------------------------------
 print '\n\t\tStart tracking on MPI process: ', rank
@@ -385,6 +425,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
+	particle_output.Update(bunch, turn)
 
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
@@ -394,3 +435,216 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
+
+particle_output.PrintParticle(0)
+########################################################################
+# Plots
+########################################################################
+plt.rcParams['figure.figsize'] = [8.0, 8.0]
+plt.rcParams['figure.dpi'] = 300
+plt.rcParams['savefig.dpi'] = 300
+
+plt.rcParams['axes.titlesize'] = 14
+plt.rcParams['axes.labelsize'] = 14
+
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
+
+plt.rcParams['font.size'] = 10
+plt.rcParams['legend.fontsize'] = 10
+
+plt.rcParams['lines.linewidth'] = 1
+plt.rcParams['lines.markersize'] = 5
+
+mpi_mkdir_p('Plots')
+save_folder = 'Plots'  
+main_label = 'LIU_2023_Long_Test'
+if s['Space_Charge']:
+        sc = 'SbS'
+else:
+        sc = 'NoSC'
+
+########################################################################
+# Simple Poincare Sections
+########################################################################
+
+particle_ids = seq_start_to_end(p['n_macroparticles'], 0, p['n_macroparticles']-1)
+turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max'])
+
+LorentzBeta = bunch.getSyncParticle().beta()
+LorentzGamma = bunch.getSyncParticle().gamma()
+
+# X XP
+########################################################################
+param1 = 'x'
+param2 = 'xp'
+multi1 = 1E3
+multi2 = 1E3
+
+x_lab = 'x [mm]'
+y_lab = 'xp [mrad]'
+
+tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
+        
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+file_exists = check_if_fig_exists(savename)
+
+if not file_exists:
+        fig1 = plt.figure(facecolor='w', edgecolor='k')
+        ax1 = fig1.add_subplot(111)
+        ax1.set_title(tit);
+
+        ax1.set_ylabel(y_lab);
+        ax1.set_xlabel(x_lab);
+
+        colors = cm.rainbow(np.linspace(0, 1, len(turn_ids)))
+
+        for t in turn_ids:
+                for p in particle_ids:
+                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+
+        ax1.legend(loc=1)
+        ax1.grid(lw=1, ls=':');
+        ax1.set_xlim(-1,turn_tot)
+
+        plt.savefig(savename, dpi = 200);
+
+# X Y
+########################################################################
+param1 = 'x'
+param2 = 'y'
+multi1 = 1E3
+multi2 = 1E3
+
+x_lab = 'x [mm]'
+y_lab = 'y [mm]'
+
+tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
+        
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+file_exists = check_if_fig_exists(savename)
+
+if not file_exists:
+        fig1 = plt.figure(facecolor='w', edgecolor='k')
+        ax1 = fig1.add_subplot(111)
+        ax1.set_title(tit);
+
+        ax1.set_ylabel(y_lab);
+        ax1.set_xlabel(x_lab);
+
+        colors = cm.rainbow(np.linspace(0, 1, len(turn_ids)))
+
+        for t in turn_ids:
+                for p in particle_ids:
+                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+
+        ax1.legend(loc=1)
+        ax1.grid(lw=1, ls=':');
+        ax1.set_xlim(-1,turn_tot)
+
+        plt.savefig(savename, dpi = 200);
+        
+# Y YP
+########################################################################
+param1 = 'y'
+param2 = 'yp'
+multi1 = 1E3
+multi2 = 1E3
+
+x_lab = 'y [mm]'
+y_lab = 'yp [mrad]'
+
+tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
+        
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+file_exists = check_if_fig_exists(savename)
+
+if not file_exists:
+        fig1 = plt.figure(facecolor='w', edgecolor='k')
+        ax1 = fig1.add_subplot(111)
+        ax1.set_title(tit);
+
+        ax1.set_ylabel(y_lab);
+        ax1.set_xlabel(x_lab);
+
+        colors = cm.rainbow(np.linspace(0, 1, len(turn_ids)))
+
+        for t in turn_ids:
+                for p in particle_ids:
+                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+
+        ax1.legend(loc=1)
+        ax1.grid(lw=1, ls=':');
+        ax1.set_xlim(-1,turn_tot)
+
+        plt.savefig(savename, dpi = 200);
+
+# Z dE
+########################################################################
+param1 = 'z'
+param2 = 'dE'
+multi1 = 1
+multi2 = 1E3
+
+x_lab = 'z [m]'
+y_lab = 'dE [MeV]'
+
+tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
+        
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+file_exists = check_if_fig_exists(savename)
+
+if not file_exists:
+        fig1 = plt.figure(facecolor='w', edgecolor='k')
+        ax1 = fig1.add_subplot(111)
+        ax1.set_title(tit);
+
+        ax1.set_ylabel(y_lab);
+        ax1.set_xlabel(x_lab);
+
+        colors = cm.rainbow(np.linspace(0, 1, len(turn_ids)))
+
+        for t in turn_ids:
+                for p in particle_ids:
+                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+
+        ax1.legend(loc=1)
+        ax1.grid(lw=1, ls=':');
+        ax1.set_xlim(-1,turn_tot)
+
+        plt.savefig(savename, dpi = 200);
+
+# t dpp
+########################################################################
+param1 = 'z'
+param2 = 'dE'
+multi1 = 1E9
+multi2 = 1
+
+x_lab = 't [ns]'
+y_lab = r'$\frac{\delta p}{p_0}$ [1E-3]'
+
+tit = main_label + ' ' + sc + ' ' + 't'  + ' ' + 'dpp'
+        
+savename = save_folder + '/'+ main_label + '_Poincare_' + 't' + '_' + 'dpp' + '.png'
+file_exists = check_if_fig_exists(savename)
+
+if not file_exists:
+        fig1 = plt.figure(facecolor='w', edgecolor='k')
+        ax1 = fig1.add_subplot(111)
+        ax1.set_title(tit);
+
+        ax1.set_ylabel(y_lab);
+        ax1.set_xlabel(x_lab);
+
+        colors = cm.rainbow(np.linspace(0, 1, len(turn_ids)))
+
+        for t in turn_ids:
+                for p in particle_ids:
+                        ax1.scatter(z_to_time(ReturnCoOrdinate(p, param1, t), LorentzBeta)*multi1, dpp_from_dE(ReturnCoOrdinate(p, param2, t), p['energy'], LorentzBeta )*multi2, label=key, color=colors[t]);
+
+        ax1.legend(loc=1)
+        ax1.grid(lw=1, ls=':');
+        ax1.set_xlim(-1,turn_tot)
+
+        plt.savefig(savename, dpi = 200);
