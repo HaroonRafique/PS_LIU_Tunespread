@@ -479,8 +479,8 @@ print 'Turn IDS: ', turn_ids
 
 LorentzBeta = bunch.getSyncParticle().beta()
 LorentzGamma = bunch.getSyncParticle().gamma()
-
-test = particle_output.ReturnCoOrdinate(0, 'x', 0)
+test_str = 'x'
+test = particle_output.ReturnCoOrdinate(0, test_str, 0)
 print 'test particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
 
 # X XP
