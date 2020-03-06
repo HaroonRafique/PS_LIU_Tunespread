@@ -437,7 +437,8 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
 
-particle_output.PrintParticle(0)
+
+
 ########################################################################
 # Plots
 ########################################################################
@@ -472,6 +473,10 @@ else:
 
 particle_ids = seq_start_to_end(p['n_macroparticles'], 0, p['n_macroparticles']-1)
 turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max']-1)
+
+for i in particle_ids:
+        particle_output.PrintParticle(i)
+        
 
 print 'Particle IDS: ', particle_ids
 print 'Turn IDS: ', turn_ids
