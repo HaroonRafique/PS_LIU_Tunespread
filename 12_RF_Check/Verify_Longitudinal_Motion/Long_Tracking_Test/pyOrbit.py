@@ -512,7 +512,7 @@ if not file_exists:
                 for p in particle_ids:
                         print 'turn = ', t
                         print 'particle =', p
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -547,7 +547,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -582,7 +582,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -617,7 +617,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -652,7 +652,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], LorentzBeta )*multi2, label=key, color=colors[t]);
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], LorentzBeta )*multi2, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
