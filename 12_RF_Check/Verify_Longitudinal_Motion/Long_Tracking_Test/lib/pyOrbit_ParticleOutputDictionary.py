@@ -41,18 +41,18 @@ class Particle_output_dictionary(object):
 				print "Particle_output_dictionary::AddNewParticle: Particle already added. Aborting addition."
 			else:	
 				# Append the new particle
-				self.particles[str(n)] = {} # First level in : N-1 : Particle Index
+				self.particles[n] = {} # First level in : N-1 : Particle Index
 			
 				# Add zero turn
-				self.particles[str(n)]['0'] = {}	# Second level : N-2 : Turn
+				self.particles[n]['0'] = {}	# Second level : N-2 : Turn
 			
 				# Add each co-ordinate and set initial values to zero
-				self.particles[str(n)]['0']['x'] = 0.	# Third level : N-3 : x
-				self.particles[str(n)]['0']['px'] = 0.	# Third level : N-3 : px
-				self.particles[str(n)]['0']['y'] = 0.	# Third level : N-3 : y
-				self.particles[str(n)]['0']['py'] = 0.	# Third level : N-3 : py
-				self.particles[str(n)]['0']['z'] = 0.	# Third level : N-3 : z
-				self.particles[str(n)]['0']['dE'] = 0.	# Third level : N-3 : dE
+				self.particles[n]['0']['x'] = 0.	# Third level : N-3 : x
+				self.particles[n]['0']['px'] = 0.	# Third level : N-3 : px
+				self.particles[n]['0']['y'] = 0.	# Third level : N-3 : y
+				self.particles[n]['0']['py'] = 0.	# Third level : N-3 : py
+				self.particles[n]['0']['z'] = 0.	# Third level : N-3 : z
+				self.particles[n]['0']['dE'] = 0.	# Third level : N-3 : dE
 				
 				# Append to list of indices
 				self.particle_list.append(n)
@@ -67,15 +67,15 @@ class Particle_output_dictionary(object):
 			for n in self.particle_list:
 				
 				# Create the turn dictionary
-				self.particles[str(n)][str(turn)] = {}	# Second level : N-2 : Turn
+				self.particles[n][turn] = {}	# Second level : N-2 : Turn
 			
 				# self.particles[index][turn]['x'] = bunch.x(index)
-				self.particles[str(n)][str(turn)]['x'] = bunch.x(n)
-				self.particles[str(n)][str(turn)]['xp'] = bunch.xp(n)
-				self.particles[str(n)][str(turn)]['y'] = bunch.y(n)
-				self.particles[str(n)][str(turn)]['yp'] = bunch.yp(n)
-				self.particles[str(n)][str(turn)]['z'] = bunch.z(n)
-				self.particles[str(n)][str(turn)]['dE'] = bunch.dE(n)
+				self.particles[n][turn]['x'] = bunch.x(n)
+				self.particles[n][turn]['xp'] = bunch.xp(n)
+				self.particles[n][turn]['y'] = bunch.y(n)
+				self.particles[n][turn]['yp'] = bunch.yp(n)
+				self.particles[n][turn]['z'] = bunch.z(n)
+				self.particles[n][turn]['dE'] = bunch.dE(n)
 				
 		self.turn_list.append(turn)		
 		if verbose:
@@ -88,7 +88,7 @@ class Particle_output_dictionary(object):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
-				filename = 'Particle_' + str(n) + '_turn_' + str(turn) + '.dat'
+				filename = 'Particle_' + n + '_turn_' + turn + '.dat'
 				
 			# Check that the particle exists
 			if n not in self.particle_list:
@@ -105,12 +105,12 @@ class Particle_output_dictionary(object):
 				
 				f.write("\n%i\t%i\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
 					n, turn, 										\
-					self.particles[str(n)][str(turn)]['x'],		\
-					self.particles[str(n)][str(turn)]['xp'],	\
-					self.particles[str(n)][str(turn)]['y'],		\
-					self.particles[str(n)][str(turn)]['yp'],	\
-					self.particles[str(n)][str(turn)]['z'],		\
-					self.particles[str(n)][str(turn)]['dE']		))
+					self.particles[n][turn]['x'],		\
+					self.particles[n][turn]['xp'],	\
+					self.particles[n][turn]['y'],		\
+					self.particles[n][turn]['yp'],	\
+					self.particles[n][turn]['z'],		\
+					self.particles[n][turn]['dE']		))
 				f.close()
 
 	# Function to print 6D co-ordinates for a particle for all turns
@@ -118,7 +118,7 @@ class Particle_output_dictionary(object):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
-				filename = 'Particle_' + str(n) + '.dat'
+				filename = 'Particle_' + n + '.dat'
 				
 			# Check that the particle exists
 			if n not in self.particle_list:
@@ -136,12 +136,12 @@ class Particle_output_dictionary(object):
 				for t in self.turn_list:				
 					f.write("\n%i\t%i\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
 						n, t, 										\
-						self.particles[str(n)][str(t)]['x'],		\
-						self.particles[str(n)][str(t)]['xp'],		\
-						self.particles[str(n)][str(t)]['y'],		\
-						self.particles[str(n)][str(t)]['yp'],		\
-						self.particles[str(n)][str(t)]['z'],		\
-						self.particles[str(n)][str(t)]['dE'] 		))
+						self.particles[n][t]['x'],		\
+						self.particles[n][t]['xp'],		\
+						self.particles[n][t]['y'],		\
+						self.particles[n][t]['yp'],		\
+						self.particles[n][t]['z'],		\
+						self.particles[n][t]['dE'] 		))
 				f.close()				
 					
 	# Function to print 6D co-ordinates for all particles for all turns
@@ -164,17 +164,17 @@ class Particle_output_dictionary(object):
 				for t in self.turn_list:			
 					f.write("\n%i\t%i\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
 						n, t, 										\
-						self.particles[str(n)][str(t)]['x'],		\
-						self.particles[str(n)][str(t)]['xp'],		\
-						self.particles[str(n)][str(t)]['y'],		\
-						self.particles[str(n)][str(t)]['yp'],		\
-						self.particles[str(n)][str(t)]['z'],		\
-						self.particles[str(n)][str(t)]['dE']		))
+						self.particles[n][t]['x'],		\
+						self.particles[n][t]['xp'],		\
+						self.particles[n][t]['y'],		\
+						self.particles[n][t]['yp'],		\
+						self.particles[n][t]['z'],		\
+						self.particles[n][t]['dE']		))
 			f.close()
 	# Function to return a given co-ordinate for a given turn and particle
-        def ReturnCoOrdinate(particle, lab, turn):
+        def ReturnCoOrdinate(n, lab, t):
                 try:
-                        return(self.particles[str(particle)][str(turn)][lab])
+                        return(self.particles[n][t][str(lab)])
                 except ValueError:
                         print 'pyOrbit_ParticleOutputDictionary::ReturnCoOrdinate::co-ordinate label', lab, ' not recognised'
                         exit(0)
