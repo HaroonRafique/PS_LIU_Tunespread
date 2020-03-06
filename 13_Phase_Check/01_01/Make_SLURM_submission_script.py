@@ -21,7 +21,7 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 # ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
 queue = 'inf-short'
 
-n_nodes = 2 
+n_nodes = 2
 cwd = os.getcwd() # Get the present directory
 digits = int(cwd[-2:]) # Use last 2 digits to select our dp/p
 jobname = 'LIU13_'+str(digits)

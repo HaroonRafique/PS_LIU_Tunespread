@@ -21,8 +21,6 @@ digits = int(folder[-2:]) # Use last 2 digits to select our phase
 
 parameters = {}
 
-parameters['str_voltage']	                = voltages[digits]
-
 parameters['Beam']				= 'Standard'
 parameters['Machine']			        = 'LIU'
 # ~ parameters['Year']				= '2021'
