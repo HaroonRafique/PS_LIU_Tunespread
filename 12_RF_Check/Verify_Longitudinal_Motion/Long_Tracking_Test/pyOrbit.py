@@ -521,7 +521,7 @@ if not file_exists:
 
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
 
 # X Y
@@ -555,7 +555,7 @@ if not file_exists:
 
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
         
 # Y YP
@@ -588,8 +588,8 @@ if not file_exists:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot)
-
+        ax1.set_xlim(-1,turn_tot);
+        plt.tight_layout();
         plt.savefig(savename, dpi = 200);
 
 # Z dE
@@ -623,7 +623,7 @@ if not file_exists:
 
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
 
 # t dpp
@@ -656,10 +656,9 @@ if not file_exists:
                         print 'turn = ', t
                         print 'particle = ', p
                         # ~ ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
-                        # ~ ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, color=colors[t]);
-                        ax1.scatter(0,0, color=colors[t]);
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta']), dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] ), color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
