@@ -172,7 +172,7 @@ class Particle_output_dictionary(object):
 						self.particles[n][t]['dE']		))
 			f.close()
 	# Function to return a given co-ordinate for a given turn and particle
-        def ReturnCoOrdinate(n, lab, t):
+        def ReturnCoOrdinate(self, n, lab, t):
                 try:
                         return(self.particles[n][t][str(lab)])
                 except ValueError:
