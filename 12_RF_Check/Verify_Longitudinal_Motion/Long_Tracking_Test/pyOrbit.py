@@ -481,7 +481,7 @@ LorentzBeta = bunch.getSyncParticle().beta()
 LorentzGamma = bunch.getSyncParticle().gamma()
 
 test = particle_output.ReturnCoOrdinate(0, 'x', 0)
-print 'test particle_output.ReturnCoOrdinate(0, 'x', 0) = ', test
+print 'test particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
 
 # X XP
 ########################################################################
