@@ -481,13 +481,13 @@ turn_tot = p['turns_max']
 LorentzBeta = p['beta']
 LorentzGamma = p['gamma']
 test_str = 'x'
-test = particle_output.ReturnCoOrdinate(0, test_str, 10)
+test = particle_output.ReturnCoOrdinate(0, test_str, 9)
 print '\ntest particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
 
-t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 10), p['beta']) * 1E9
+t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 9), p['beta']) * 1E9
 print '\nt_test = ', t_test
 
-dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 10), p['energy'], p['beta'] )
+dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 9), p['energy'], p['beta'] )
 print '\ndpp_test = ', dpp_test
 
 # X XP
@@ -517,8 +517,6 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        print 'turn = ', t
-                        print 'particle =', p
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.legend(loc=1)
