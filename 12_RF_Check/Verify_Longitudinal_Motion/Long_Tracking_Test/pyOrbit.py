@@ -655,7 +655,8 @@ if not file_exists:
                 for p in particle_ids:
                         print 'turn = ', t
                         print 'particle = ', p
-                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
+                        # ~ ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
