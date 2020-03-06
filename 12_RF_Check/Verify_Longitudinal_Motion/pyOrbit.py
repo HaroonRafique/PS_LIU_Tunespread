@@ -255,7 +255,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
 				
-particle_output.PrintParticle(0)		
+particle_output.PrintParticle(0)
 
 # Need number of turns to return to starting position. Let's read the
 # particle output file
