@@ -472,7 +472,7 @@ turn_tot = p['turns_max']
 ########################################################################
 
 particle_ids = seq_start_to_end(p['n_macroparticles'], 0, p['n_macroparticles']-1)
-turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max'])
+turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max']-1)
 
 print 'Particle IDS: ', particle_ids
 print 'Turn IDS: ', turn_ids
