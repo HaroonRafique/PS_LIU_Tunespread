@@ -465,7 +465,6 @@ if s['Space_Charge']:
 else:
         sc = 'NoSC'
         
-turn_tot = p['turns_max']
 
 ########################################################################
 # Simple Poincare Sections
@@ -477,8 +476,10 @@ turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max']-1)
 print 'Particle IDS: ', particle_ids
 print 'Turn IDS: ', turn_ids
 
-LorentzBeta = bunch.getSyncParticle().beta()
-LorentzGamma = bunch.getSyncParticle().gamma()
+turn_tot = p['turns_max']
+
+LorentzBeta = p['beta']
+LorentzGamma = p['gamma']
 test_str = 'x'
 test = particle_output.ReturnCoOrdinate(0, test_str, 0)
 print 'test particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
