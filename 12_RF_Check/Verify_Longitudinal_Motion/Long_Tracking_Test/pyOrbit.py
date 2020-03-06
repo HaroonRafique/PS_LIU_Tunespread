@@ -464,6 +464,8 @@ if s['Space_Charge']:
         sc = 'SbS'
 else:
         sc = 'NoSC'
+        
+turn_tot = p['turns_max']
 
 ########################################################################
 # Simple Poincare Sections
@@ -505,6 +507,8 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
+                        print 'turn = ', t
+                        print 'particle =', p
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
 
         ax1.legend(loc=1)
