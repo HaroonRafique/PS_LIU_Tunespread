@@ -11,6 +11,7 @@ import os
 # plotting 
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.cm as cm
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
