@@ -484,10 +484,10 @@ test_str = 'x'
 test = particle_output.ReturnCoOrdinate(0, test_str, 9)
 print '\ntest particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
 
-t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 9), p['beta']) * 1E9
+t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 0), p['beta']) * 1E9
 print '\nt_test = ', t_test
 
-dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 9), p['energy'], p['beta'] )
+dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 0), p['energy'], p['beta'] )
 print '\ndpp_test = ', dpp_test
 
 # X XP
@@ -519,7 +519,6 @@ if not file_exists:
                 for p in particle_ids:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
 
@@ -554,7 +553,6 @@ if not file_exists:
                 for p in particle_ids:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
 
@@ -589,7 +587,6 @@ if not file_exists:
                 for p in particle_ids:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
 
@@ -599,7 +596,7 @@ if not file_exists:
 ########################################################################
 param1 = 'z'
 param2 = 'dE'
-multi1 = 1
+multi1 = 1.
 multi2 = 1E3
 
 x_lab = 'z [m]'
@@ -622,9 +619,8 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
 
@@ -661,7 +657,6 @@ if not file_exists:
                         print 'particle = ', p
                         ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
 
