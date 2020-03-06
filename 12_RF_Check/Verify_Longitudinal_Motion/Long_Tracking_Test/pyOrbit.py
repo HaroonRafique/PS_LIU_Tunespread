@@ -484,6 +484,12 @@ test_str = 'x'
 test = particle_output.ReturnCoOrdinate(0, test_str, 0)
 print 'test particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
 
+t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 0)
+print 't_test = ', t_test
+
+dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 0), p['energy'], p['beta'] )
+print 'dpp_test = ', dpp_test
+
 # X XP
 ########################################################################
 param1 = 'x'
@@ -653,7 +659,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], LorentzBeta )*multi2, color=colors[t]);
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
