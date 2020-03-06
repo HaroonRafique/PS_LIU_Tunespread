@@ -502,7 +502,7 @@ y_lab = 'xp [mrad]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -537,7 +537,7 @@ y_lab = 'y [mm]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -572,7 +572,7 @@ y_lab = 'yp [mrad]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -607,7 +607,7 @@ y_lab = 'dE [MeV]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -657,6 +657,8 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
+                        print 'turn = ', t
+                        print 'particle = ', p
                         ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(p, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(p, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
 
         ax1.legend(loc=1)
