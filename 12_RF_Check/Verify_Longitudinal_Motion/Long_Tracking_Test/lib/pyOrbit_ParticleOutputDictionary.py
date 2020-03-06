@@ -88,7 +88,7 @@ class Particle_output_dictionary(object):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
-				filename = 'Particle_' + n + '_turn_' + turn + '.dat'
+				filename = 'Particle_' + str(n) + '_turn_' + str(turn) + '.dat'
 				
 			# Check that the particle exists
 			if n not in self.particle_list:
@@ -118,7 +118,7 @@ class Particle_output_dictionary(object):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
-				filename = 'Particle_' + n + '.dat'
+				filename = 'Particle_' + str(n) + '.dat'
 				
 			# Check that the particle exists
 			if n not in self.particle_list:
