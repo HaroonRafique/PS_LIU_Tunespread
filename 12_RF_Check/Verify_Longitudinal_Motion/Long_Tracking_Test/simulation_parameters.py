@@ -14,23 +14,12 @@ def is_non_zero_file(fpath):
         print '\n\t\t\tis_non_zero_file:: Size > 3 bytes = ', os.path.getsize(fpath)
         return os.path.isfile(fpath) and os.path.getsize(fpath) > 3
 
-cwd = os.getcwd() # Get the present directory
-folder = cwd.split('/')[-1]
-sc = 0 #int(folder[:2])
-digits = 0 # Use last 2 digits to select our voltage
-
-voltages = []
-v_step = 0.2 #kV
-steps = 11
-for i in range(steps):
-    # Middle selected as 45kV
-    min_voltage = 42 - ((steps - 1)/2 * v_step)
-    rf_voltage = round_sig(min_voltage + (i*v_step),3)        
-    voltages.append(replace_point_with_p(str(rf_voltage)))
+# ~ cwd = os.getcwd() # Get the present directory
+# ~ folder = cwd.split('/')[-1]
+# ~ sc = 0 #int(folder[:2])
+# ~ digits = 0 # Use last 2 digits to select our voltage
         
 parameters = {}
-
-parameters['str_voltage']	                = voltages[digits]
 
 parameters['Beam']				= 'Standard'
 parameters['Machine']			        = 'LIU'
@@ -91,15 +80,11 @@ parameters['turns_update'] = sorted(tu)
 switches = {
 	'CreateDistn':		True,
 	'Update_Twiss':		False,
+	'Space_Charge':		False,
 	'GridSizeX': 128,
 	'GridSizeY': 128,
 	'GridSizeZ': 64
 }
-
-if sc is 1:
-        switches['Space_Charge'] = True
-else:
-        switches['Space_Charge'] = False
         
 
 # PTC RF Table Parameters
