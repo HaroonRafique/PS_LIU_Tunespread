@@ -472,6 +472,9 @@ else:
 particle_ids = seq_start_to_end(p['n_macroparticles'], 0, p['n_macroparticles']-1)
 turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max'])
 
+print 'Particle IDS: ', particle_ids
+print 'Turn IDS: ', turn_ids
+
 LorentzBeta = bunch.getSyncParticle().beta()
 LorentzGamma = bunch.getSyncParticle().gamma()
 
@@ -502,7 +505,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -537,7 +540,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -572,7 +575,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
@@ -607,7 +610,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, label=key, color=colors[t]);
 
         ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
