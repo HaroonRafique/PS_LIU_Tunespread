@@ -480,6 +480,7 @@ turn_tot = p['turns_max']
 
 LorentzBeta = p['beta']
 LorentzGamma = p['gamma']
+BeamEnergy = p['energy']
 test_str = 'x'
 test = particle_output.ReturnCoOrdinate(0, test_str, 9)
 print '\ntest particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
@@ -653,7 +654,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for pp in particle_ids:
-                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(pp, param1, t), p['beta'])*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(pp, param2, t), p['energy'], p['beta'] )*multi2, color=colors[t]);
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(pp, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(pp, param2, t), BeamEnergy, LorentzBeta)*multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
