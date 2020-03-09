@@ -11,6 +11,7 @@ import os
 # plotting 
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.cm as cm
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -436,7 +437,8 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
 
-particle_output.PrintParticle(0)
+
+
 ########################################################################
 # Plots
 ########################################################################
@@ -463,16 +465,36 @@ if s['Space_Charge']:
         sc = 'SbS'
 else:
         sc = 'NoSC'
+        
 
 ########################################################################
 # Simple Poincare Sections
 ########################################################################
 
 particle_ids = seq_start_to_end(p['n_macroparticles'], 0, p['n_macroparticles']-1)
-turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max'])
+turn_ids = seq_start_to_end(p['turns_max'], 0, p['turns_max']-1)
 
-LorentzBeta = bunch.getSyncParticle().beta()
-LorentzGamma = bunch.getSyncParticle().gamma()
+for i in particle_ids:
+        particle_output.PrintParticle(i)
+        
+
+print 'Particle IDS: ', particle_ids
+print 'Turn IDS: ', turn_ids
+
+turn_tot = p['turns_max']
+
+LorentzBeta = p['beta']
+LorentzGamma = p['gamma']
+BeamEnergy = p['energy']
+test_str = 'x'
+test = particle_output.ReturnCoOrdinate(0, test_str, 9)
+print '\ntest particle_output.ReturnCoOrdinate(0, \'x\', 0) = ', test
+
+t_test = z_to_time(particle_output.ReturnCoOrdinate(0, 'z', 0), p['beta']) * 1E9
+print '\nt_test = ', t_test
+
+dpp_test = dpp_from_dE(particle_output.ReturnCoOrdinate(0, 'dE', 0), p['energy'], p['beta'] )
+print '\ndpp_test = ', dpp_test
 
 # X XP
 ########################################################################
@@ -486,7 +508,7 @@ y_lab = 'xp [mrad]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -501,12 +523,11 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
 
 # X Y
@@ -521,7 +542,7 @@ y_lab = 'y [mm]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -536,12 +557,11 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
         
 # Y YP
@@ -556,7 +576,7 @@ y_lab = 'yp [mrad]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -571,19 +591,18 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot)
-
+        ax1.set_xlim(-1,turn_tot);
+        plt.tight_layout();
         plt.savefig(savename, dpi = 200);
 
 # Z dE
 ########################################################################
 param1 = 'z'
 param2 = 'dE'
-multi1 = 1
+multi1 = 1.
 multi2 = 1E3
 
 x_lab = 'z [m]'
@@ -591,7 +610,7 @@ y_lab = 'dE [MeV]'
 
 tit = main_label + ' ' + sc + ' ' + param1  + ' ' + param2
         
-savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param1 + '.png'
+savename = save_folder + '/'+ main_label + '_Poincare_' + param1 + '_' + param2 + '.png'
 file_exists = check_if_fig_exists(savename)
 
 if not file_exists:
@@ -606,12 +625,11 @@ if not file_exists:
 
         for t in turn_ids:
                 for p in particle_ids:
-                        ax1.scatter(ReturnCoOrdinate(p, param1, t)*multi1, ReturnCoOrdinate(p, param2, t)*multi2, label=key, color=colors[t]);
+                        ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
 
 # t dpp
@@ -640,11 +658,10 @@ if not file_exists:
         colors = cm.rainbow(np.linspace(0, 1, len(turn_ids)))
 
         for t in turn_ids:
-                for p in particle_ids:
-                        ax1.scatter(z_to_time(ReturnCoOrdinate(p, param1, t), LorentzBeta)*multi1, dpp_from_dE(ReturnCoOrdinate(p, param2, t), p['energy'], LorentzBeta )*multi2, label=key, color=colors[t]);
+                for pp in particle_ids:
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(pp, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(pp, param2, t), BeamEnergy, LorentzBeta)*multi2, color=colors[t]);
 
-        ax1.legend(loc=1)
         ax1.grid(lw=1, ls=':');
         ax1.set_xlim(-1,turn_tot)
-
+        plt.tight_layout()
         plt.savefig(savename, dpi = 200);
