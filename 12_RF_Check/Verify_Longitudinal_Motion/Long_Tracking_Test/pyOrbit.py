@@ -526,7 +526,7 @@ if not file_exists:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot)
+        # ~ ax1.set_xlim(-1,turn_tot)
         plt.tight_layout()
         plt.savefig(savename, dpi = 200);
 
@@ -560,7 +560,7 @@ if not file_exists:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot)
+        # ~ ax1.set_xlim(-1,turn_tot)
         plt.tight_layout()
         plt.savefig(savename, dpi = 200);
         
@@ -594,7 +594,7 @@ if not file_exists:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t) *multi1, particle_output.ReturnCoOrdinate(p, param2, t) *multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot);
+        # ~ ax1.set_xlim(-1,turn_tot);
         plt.tight_layout();
         plt.savefig(savename, dpi = 200);
 
@@ -628,7 +628,7 @@ if not file_exists:
                         ax1.scatter(particle_output.ReturnCoOrdinate(p, param1, t)*multi1, particle_output.ReturnCoOrdinate(p, param2, t)*multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot)
+        # ~ ax1.set_xlim(-1,turn_tot)
         plt.tight_layout()
         plt.savefig(savename, dpi = 200);
 
@@ -662,6 +662,6 @@ if not file_exists:
                         ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(pp, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(pp, param2, t), BeamEnergy, LorentzBeta)*multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
-        ax1.set_xlim(-1,turn_tot)
+        # ~ ax1.set_xlim(-1,turn_tot)
         plt.tight_layout()
         plt.savefig(savename, dpi = 200);
