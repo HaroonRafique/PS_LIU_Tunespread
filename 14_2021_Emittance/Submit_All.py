@@ -6,8 +6,8 @@ master_dir = os.getcwd()
 
 
 locations = []
-locations.append('/01_00')
-locations.append('/01_01')
+locations.append('/2021_00')
+locations.append('/2021_01')
 
 if Scan:
 	for loc in locations:
