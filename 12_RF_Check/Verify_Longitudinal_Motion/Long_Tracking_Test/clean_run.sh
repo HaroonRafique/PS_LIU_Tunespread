@@ -7,7 +7,7 @@ rm -r lost
 rm -r input
 
 rm *.tfs
-rm PTC-PyORBIT_flat_file.flt
+#rm PTC-PyORBIT_flat_file.flt
 rm tunespread.dat
 rm madx.ps
 
