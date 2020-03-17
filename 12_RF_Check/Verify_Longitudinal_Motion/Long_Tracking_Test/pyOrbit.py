@@ -456,7 +456,7 @@ plt.rcParams['font.size'] = 10
 plt.rcParams['legend.fontsize'] = 10
 
 plt.rcParams['lines.linewidth'] = 1
-plt.rcParams['lines.markersize'] = 5
+plt.rcParams['lines.markersize'] = 1
 
 mpi_mkdir_p('Plots')
 save_folder = 'Plots'  
@@ -637,10 +637,10 @@ if not file_exists:
 param1 = 'z'
 param2 = 'dE'
 multi1 = 1E9
-multi2 = 1
+multi2 = 1E3
 
 x_lab = 't [ns]'
-y_lab = r'$\frac{\delta p}{p_0}$ [1E-3]'
+y_lab = r'$\frac{\delta p}{p_0}$ $[10^{-3}]$'
 
 tit = main_label + ' ' + sc + ' ' + 't'  + ' ' + 'dpp'
         
@@ -659,7 +659,7 @@ if not file_exists:
 
         for t in turn_ids:
                 for pp in particle_ids:
-                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(pp, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(pp, param2, t), BeamEnergy, LorentzBeta)*multi2, color=colors[t]);
+                        ax1.scatter(z_to_time(particle_output.ReturnCoOrdinate(pp, param1, t), LorentzBeta)*multi1, dpp_from_dE(particle_output.ReturnCoOrdinate(pp, param2, t)*1E9, BeamEnergy, LorentzBeta)*multi2, color=colors[t]);
 
         ax1.grid(lw=1, ls=':');
         # ~ ax1.set_xlim(-1,turn_tot)
