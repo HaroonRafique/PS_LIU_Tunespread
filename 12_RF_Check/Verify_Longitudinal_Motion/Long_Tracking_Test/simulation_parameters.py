@@ -57,7 +57,7 @@ elif parameters['Year'] is '2023':
 
 parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
 parameters['LongitudinalJohoParameter'] = 1.2
-parameters['LongitudinalCut'] 	        = 5
+parameters['LongitudinalCut'] 	        = 3
 parameters['TransverseCut']		= 5
 parameters['circumference']		= 2*np.pi*100
 parameters['phi_s']				= 0
