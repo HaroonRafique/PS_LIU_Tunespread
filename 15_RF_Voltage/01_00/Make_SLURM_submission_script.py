@@ -22,9 +22,14 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 queue = 'inf-short'
 
 n_nodes = 2 
+
 cwd = os.getcwd() # Get the present directory
-digits = int(cwd[-2:]) # Use last 2 digits to select our dp/p
-jobname = 'LIU12_'+str(digits)
+folder = cwd.split('/')[-1] # Last part of cwd
+sc = int(folder[0]) # First digit selects space charge 1=True
+vol = int(folder[1]) # Second digit selects voltage change in BLonD (1) or PyORBIT (0)
+digits = int(folder[-2:]) # Use last 2 digits to select our voltage
+
+jobname = '15_'+str(sc)+str(vol)+'_'+str(digits)
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
