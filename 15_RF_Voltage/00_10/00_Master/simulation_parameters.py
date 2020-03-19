@@ -30,7 +30,7 @@ v_step = 0.1 #kV
 steps = 30
 for i in range(steps):
     # Middle selected as 41.8kV
-    min_voltage = 41.8 - ((steps - 1)/2 * v_step)    
+    min_voltage = 39 - ((steps - 1)/2 * v_step)    
     rf_voltage = round_sig(min_voltage + (i*v_step),3)        
     str_voltages.append(replace_point_with_p(str(rf_voltage)))
     voltages.append(round_sig(rf_voltage*1E-3))

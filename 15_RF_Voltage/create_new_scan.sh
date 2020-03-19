@@ -1,7 +1,7 @@
 #!/bin/bash
 folder_in=00_Master
-#~ folder_out=00   # NoSC PyORBIT
-folder_out=01   # NoSC BLonD
+folder_out=00   # NoSC PyORBIT
+#~ folder_out=01   # NoSC BLonD
 #~ folder_out=10   # SC PyORBIT
 #~ folder_out=11   # SC BLonD
 
