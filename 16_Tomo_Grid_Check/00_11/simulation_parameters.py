@@ -38,7 +38,7 @@ case = int(folder[-1]) # Last digit selects voltage case
     # ~ voltages.append(round_sig(rf_voltage*1E-3))
     
 voltages = [41.8, 43]
-str_voltages = [41p8, 43]
+str_voltages = ['41p8', '43p0']
     
 # parameters
 ########################################################################        

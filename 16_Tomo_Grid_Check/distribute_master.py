@@ -3,11 +3,11 @@ import shutil
 # Flags to select which files to copy from master to locations
 ########################################################################
 pyorbit                 = False
-simulation_parameters   = False # Not a good idea - resets all sims to master settings (arbitrary)
+simulation_parameters   = True
 flat_files              = False
 tune_files              = False
 distn_gen               = False
-tomo_files              = True
+tomo_files              = False
 bunch_plotting          = False
 
 # Locations of master directory and common filenames
