@@ -28,7 +28,7 @@ v_step = 0.1 #kV
 steps = 30
 for i in range(steps):
     # Middle selected as 41.8kV
-    min_voltage = 41.8 - ((steps - 1)/2 * v_step)    
+    min_voltage = 39 - ((steps - 1)/2 * v_step)    
     rf_voltage = round_sig(min_voltage + (i*v_step),3)        
     str_voltages.append(replace_point_with_p(str(rf_voltage)))
     voltages.append(round_sig(rf_voltage*1E-3))
@@ -69,7 +69,7 @@ PO_locations.append('./00_29')
 
 BL_locations = []
 BL_locations.append('./01_00')
-BL_locations.append('./01_01')
+#BL_locations.append('./01_01')
 BL_locations.append('./01_02')
 BL_locations.append('./01_03')
 BL_locations.append('./01_04')
@@ -79,7 +79,7 @@ BL_locations.append('./01_07')
 BL_locations.append('./01_08')
 BL_locations.append('./01_09')
 BL_locations.append('./01_10')
-BL_locations.append('./01_11')
+# ~ BL_locations.append('./01_11')
 BL_locations.append('./01_12')
 BL_locations.append('./01_13')
 BL_locations.append('./01_14')
@@ -89,7 +89,7 @@ BL_locations.append('./01_17')
 BL_locations.append('./01_18')
 BL_locations.append('./01_19')
 BL_locations.append('./01_20')
-BL_locations.append('./01_21')
+# ~ BL_locations.append('./01_21')
 BL_locations.append('./01_22')
 BL_locations.append('./01_23')
 BL_locations.append('./01_24')
@@ -97,7 +97,7 @@ BL_locations.append('./01_25')
 BL_locations.append('./01_26')
 BL_locations.append('./01_27')
 BL_locations.append('./01_28')
-BL_locations.append('./01_29')
+# ~ BL_locations.append('./01_29')
 
 # Copy files
 ########################################################################
