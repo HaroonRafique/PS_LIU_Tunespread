@@ -44,10 +44,9 @@ str_voltages = ['41p8', '43p0']
 ########################################################################        
 parameters = {}
 
-parameters['digits_flag']               = digits
 parameters['sc_flag']                   = sc
 parameters['voltage_change_flag']       = vol
-parameters['str_voltage']               = str_voltages[digits]
+parameters['str_voltage']               = str_voltages[vol]
 
 parameters['Beam']			= 'Standard'
 parameters['Machine']			= 'LIU'
