@@ -84,15 +84,15 @@ elif parameters['Year'] is '2023':
 if case is '0':
         parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_41p8_2023.mat'
         parameters['rf_voltage']        = 0.0418
-parameters['str_voltage']               = str_voltages[0]
+        parameters['str_voltage']               = str_voltages[0]
 elif case is '1':
         parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_41p8_2023.mat'
         parameters['rf_voltage']        = 0.0399
-parameters['str_voltage']               = str_voltages[1]
+        parameters['str_voltage']               = str_voltages[1]
 elif case is '2':
         parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_43p0_2023.mat'
         parameters['rf_voltage']        = 0.0418
-parameters['str_voltage']               = str_voltages[0]
+        parameters['str_voltage']               = str_voltages[0]
         
 is_non_zero_file(parameters['tomo_file'])
 
