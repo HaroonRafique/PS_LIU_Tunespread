@@ -20,25 +20,16 @@ def is_non_zero_file(fpath):
 ########################################################################
 cwd = os.getcwd() # Get the present directory
 folder = cwd.split('/')[-1] # Last part of cwd
-sc = int(folder[-2]) # Second to last digit selects space charge
+sc = int(folder[-4]) # 4th to last selects space charge
+inten = int(folder[-2]) # Second to last digit selects intensity
 case = int(folder[-1]) # Last digit selects voltage case
 # 0 = PO = BL = 41.8 
 # 1 = PO = 39.9, BL = 41.8
 # 2 = PO = 41.8, BL = 43
 
-# ~ str_voltages = []
-# ~ voltages = []
-# ~ v_step = 0.1 #kV
-# ~ steps = 30
-# ~ for i in range(steps):
-    # ~ # Middle selected as 41.8kV
-    # ~ min_voltage = 39 - ((steps - 1)/2 * v_step)    
-    # ~ rf_voltage = round_sig(min_voltage + (i*v_step),3)        
-    # ~ str_voltages.append(replace_point_with_p(str(rf_voltage)))
-    # ~ voltages.append(round_sig(rf_voltage*1E-3))
-    
 voltages = [41.8, 43]
 str_voltages = ['41p8', '43p0']
+intensities = [1.6E12, 2E12]
     
 # parameters
 ########################################################################        
@@ -61,7 +52,7 @@ parameters['n_macroparticles']	= int(5E5)
 
 # LIU parameters: 2GeV
 parameters['gamma'] 		= 3.131540798
-parameters['intensity']		= 325E10
+parameters['intensity']		= intensities[inten]
 parameters['epsn_x']		= 1.88E-6
 parameters['epsn_y']		= 1.88E-6
 
