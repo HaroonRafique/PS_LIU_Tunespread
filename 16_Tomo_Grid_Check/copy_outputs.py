@@ -69,14 +69,14 @@ for loc in NoSC_locations:
                 print 'copy_outputs::Error:' , destination, ' destination file empty, please check'
         i = i+1
 
-# ~ i = 0
-# ~ for loc in SC_locations:
-        # ~ original = str(loc + output_file)
-        # ~ destination = str(destination_folder + 'PO_' + PO_V[loc[-1]] + '_BL_' + BL_V[loc[-1]] + '_SC.mat')
-        # ~ is_non_zero_file(original)
-        # ~ newPath = shutil.copy(original, destination)    
-        # ~ if is_non_zero_file(destination):
-                # ~ print 'copy_outputs:: ', original, ' copied to ', destination
-        # ~ else:
-                # ~ print 'copy_outputs::Error:' , destination, ' destination file empty, please check'
-        # ~ i = i+1
+i = 0
+for loc in SC_locations:
+        original = str(loc + output_file)
+        destination = str(destination_folder + 'I_' + Int[int(loc[-2])] + '_PO_' + PO_V[int(loc[-1])] + '_BL_' + BL_V[int(loc[-1])] + '_SC.mat')
+        is_non_zero_file(original)
+        newPath = shutil.copy(original, destination)    
+        if is_non_zero_file(destination):
+                print 'copy_outputs:: ', original, ' copied to ', destination
+        else:
+                print 'copy_outputs::Error:' , destination, ' destination file empty, please check'
+        i = i+1
