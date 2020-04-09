@@ -880,11 +880,9 @@ def generate_initial_long_poincare_distribution2(parameters, Lattice, output_fil
 				# ~ dpp = dE[i] / (parameters['energy']) / parameters['beta']**2 * 1E9
                                 print 'dpp = ', dpps[i]
                                 dE[i] = dpps[i] * parameters['energy'] * parameters['beta']**2 #* 1E9
-                                phi[i] = -0.075 * h_main / R    
+                                phi[i] = 0.075 * h_main / R    
                                 print 'dE = ', dE[i]
-				# ~ if zero_particle:
-					# ~ if i == 0:	phi[i] = - z_offset * h_main / R
-				# ~ else:	phi[i] = i * -z_offset * h_main / R                                
+                                print 'phi = ', phi[i]
                 
 				if outputFormat == 'Orbit':
                                         # ~ dpp = dE[i] / (parameters['energy']) / parameters['beta']**2 * 1E9
