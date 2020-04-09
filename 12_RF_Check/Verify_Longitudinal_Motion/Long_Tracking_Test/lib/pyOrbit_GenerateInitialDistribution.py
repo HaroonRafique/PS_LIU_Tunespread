@@ -816,3 +816,90 @@ def generate_initial_long_poincare_distribution(parameters, Lattice, output_file
 	orbit_mpi.MPI_Barrier(comm)
 
 	return output_file
+
+# ~ def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, zero_particle=True, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+def generate_initial_long_poincare_distribution2(parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+	
+	parameters['alphax0'] = Lattice.alphax0
+	parameters['betax0']  = Lattice.betax0
+	parameters['alphay0'] = Lattice.alphay0
+	parameters['betay0']  = Lattice.betay0
+	parameters['etax0']   = Lattice.etax0
+	parameters['etapx0']  = Lattice.etapx0
+	parameters['etay0']   = Lattice.etay0
+	parameters['etapy0']  = Lattice.etapy0
+	parameters['x0']      = Lattice.orbitx0
+	parameters['xp0']     = Lattice.orbitpx0
+	parameters['y0']      = Lattice.orbity0
+	parameters['yp0']     = Lattice.orbitpy0
+	parameters['gamma_transition'] = Lattice.gammaT
+	parameters['circumference']    = Lattice.getLength()
+	parameters['length'] = Lattice.getLength()/Lattice.nHarm
+	
+	# twiss containers
+	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
+	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
+	dispersionx = {'etax0': parameters['beta']*parameters['etax0'], 'etapx0': parameters['beta']*parameters['etapx0']}
+	dispersiony = {'etay0': parameters['beta']*parameters['etay0'], 'etapy0': parameters['beta']*parameters['etapy0']}
+	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
+	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
+
+	# initialize particle arrays
+	x = np.zeros(parameters['n_macroparticles'])
+	xp = np.zeros(parameters['n_macroparticles'])
+	y = np.zeros(parameters['n_macroparticles'])
+	yp = np.zeros(parameters['n_macroparticles'])
+	phi = np.zeros(parameters['n_macroparticles'])
+	dE = np.zeros(parameters['n_macroparticles'])
+
+	# building the distributions
+	# ~ Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
+	# ~ Transverse_distribution = KVDist1D(twissX)
+	# ~ Longitudinal_distribution = LongitudinalJohoDistributionSingleHarmonic(parameters, parameters['LongitudinalJohoParameter'])
+
+	# only the main CPU is actually writing its distribution to a file ...
+	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+	if orbit_mpi.MPI_Comm_rank(comm) == 0:
+		with open(output_file,"w") as fid:
+			csv_writer = csv.writer(fid, delimiter=' ')
+			
+			h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+			R = parameters['circumference'] / 2 / np.pi
+			#phi = - z * h_main / R
+                        
+                        # centred on zero, we want particles spread in dE or dpp
+                        # limits between +/- 
+                        max_dpp = parameters['LongitudinalCut'] * parameters['dpp_rms']
+                        # min_dpp = -1* max_dpp                        
+                        dpps = seq_even_about_start(parameters['n_macroparticles'], 0, max_dpp)
+                        if len(dpps) != (parameters['n_macroparticles']):
+                                print 'pyOrbit_GenerateInitialDistribution::generate_initial_long_poincare_distribution::ERROR: Length of dpps not equal to number of macroparticles'
+                        
+			for i in range(parameters['n_macroparticles']):
+                                
+				# ~ dpp = dE[i] / (parameters['energy']) / parameters['beta']**2 * 1E9
+                                print 'dpp = ', dpps[i]
+                                dE[i] = dpps[i] * parameters['energy'] * parameters['beta']**2 #* 1E9
+                                phi[i] = -0.075 * h_main / R    
+                                print 'dE = ', dE[i]
+				# ~ if zero_particle:
+					# ~ if i == 0:	phi[i] = - z_offset * h_main / R
+				# ~ else:	phi[i] = i * -z_offset * h_main / R                                
+                
+				if outputFormat == 'Orbit':
+                                        # ~ dpp = dE[i] / (parameters['energy']) / parameters['beta']**2 * 1E9
+					x[i] *= 1000.
+					xp[i] *= 1000.
+					y[i] *= 1000.
+					yp[i] *= 1000.
+					dE[i] /= 1.e9
+					# ~ csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
+				csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
+		# ~ if summary_file:
+			# ~ with open(summary_file, 'w') as fid:
+				# ~ map(lambda key: fid.write(key + ' = ' + str(parameters[key]) + '\n'), parameters)
+		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
+
+	orbit_mpi.MPI_Barrier(comm)
+
+	return output_file
