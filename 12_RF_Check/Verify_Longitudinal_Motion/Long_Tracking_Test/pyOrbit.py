@@ -212,8 +212,8 @@ if sts['turn'] < 0:
 #-----------------------------------------------------------------------
 		print '\ngenerate_initial_distribution on MPI process: ', rank
 		# ~ Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-		# ~ Particle_distribution_file = generate_initial_long_poincare_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-		Particle_distribution_file = generate_initial_long_poincare_distribution2(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		Particle_distribution_file = generate_initial_long_poincare_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		# ~ Particle_distribution_file = generate_initial_long_poincare_distribution2(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
@@ -427,7 +427,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
-	particle_output.Update(bunch, turn+1)
+	particle_output.Update(bunch, turn)
 
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
