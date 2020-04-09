@@ -426,7 +426,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
-	particle_output.Update(bunch, turn)
+	particle_output.Update(bunch, turn+1)
 
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
