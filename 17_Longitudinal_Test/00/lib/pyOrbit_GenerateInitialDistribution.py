@@ -763,7 +763,23 @@ def generate_initial_distribution_from_BLonD(parameters, Lattice=None, output_fi
 
         # Open BLonD file
         BLonD_data = np.load(parameters['BLonD_file'])        
-
+        
+        # Old iterative method
+        # ~ for i in range(parameters['n_macroparticles']):
+                # ~ try:
+                        # ~ # Set co-ordinates
+                        # ~ z[i] = BLonD_data['dz'][i]
+                        # ~ phi[i] = -1 * z[i] * h_main / R
+                        # ~ dE[i] = (BLonD_data['dE'][i] / 1E9) # in eV
+                        # ~ print i, ': ', z[i]
+                # ~ except IndexError:
+                        # ~ print 'ERROR: pyOrbit_GenerateInitialDistribution::generate_initial_distribution_from_BLonD'
+                        # ~ print parameters['BLonD_file'], ' does not contain enough particles to fill the bunch co-ordinates'
+                        # ~ exit(0)
+                        
+        z = BLonD_data['dz']
+        dE = (BLonD_data['dE']/ 1E9)
+                        
 	# We need to convert z into phi
 	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
 	R = parameters['circumference'] / 2 / np.pi
@@ -777,18 +793,7 @@ def generate_initial_distribution_from_BLonD(parameters, Lattice=None, output_fi
 			
 			csv_writer = csv.writer(fid, delimiter=' ')
 			for i in range(parameters['n_macroparticles']):
-                                
-                                try:
-                                        # Set co-ordinates
-                                        z[i] = BLonD_data['dz'][i]
-                                        phi[i] = -1 * z[i] * h_main / R
-                                        dE[i] = (BLonD_data['dE'][i] / 1E9) # in eV
-                                        print i, ': ', z[i]
-                                except IndexError:
-                                        print 'ERROR: pyOrbit_GenerateInitialDistribution::generate_initial_distribution_from_BLonD'
-                                        print parameters['BLonD_file'], ' does not contain enough particles to fill the bunch co-ordinates'
-                                        exit(0)
-
+                                phi[i] = -1 * z[i] * h_main / R
 				# ~ (z[i], dE[i]) = Longitudinal_distribution.getCoordinates()
 				# ~ z[i] = z[i] * speed_of_light * parameters['beta'] * 1e-9 # convert ns to s and then m
 				# ~ dE[i] = dE[i] * 1e-3 # convert from MeV to GeV
