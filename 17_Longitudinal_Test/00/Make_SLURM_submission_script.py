@@ -21,7 +21,7 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 # ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
 queue = 'inf-short'
 
-n_nodes = 1 
+n_nodes = 2 
 
 cwd = os.getcwd() # Get the present directory
 folder = cwd.split('/')[-1] # Last part of cwd
