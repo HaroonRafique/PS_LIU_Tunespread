@@ -15,7 +15,6 @@ from orbit.utils.consts import mass_proton, speed_of_light, pi
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.bunch_utils import ParticleIdNumber
 
-
 class LongitudinalDistributionFromTomoscope():
 
 	def __init__(self, filename, matfile=0):
