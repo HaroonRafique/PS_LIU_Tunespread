@@ -65,7 +65,7 @@ elif parameters['Year'] is '2023':
 # For this case we don't use the tomo file, instead we use the BLonD generated data directly
 # ~ parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_41p8_2023.mat'
 # ~ is_non_zero_file(parameters['tomo_file'])   
-parameters['BLonD_file']='Tomo_Files/BLonD_Longitudinal_Distn_LIU_2023_41p8kV.npz'
+parameters['BLonD_file']='Tomo_Files/BLonD_Longitudinal_Distn_LIU_2023_40p8kV.npz'
 parameters['rf_voltage']        = 0.0418
 
 parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
