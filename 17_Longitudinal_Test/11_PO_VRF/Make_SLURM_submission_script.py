@@ -29,7 +29,7 @@ n_nodes = 2
 # ~ vol = int(folder[1]) # Second digit selects voltage change in BLonD (1) or PyORBIT (0)
 # ~ digits = int(folder[-2:]) # Use last 2 digits to select our voltage
 
-jobname = '17_12'
+jobname = '17_11'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
