@@ -60,13 +60,13 @@ elif parameters['Year'] is '2023':
 	parameters['bunch_length']	= 205E-9
 	parameters['blength']		= 205E-9
 	parameters['dpp_rms']		= 1.5E-03
-	parameters['rf_voltage']	= 0.0408 # 41.8 kV ALWAYS FIXED
+	parameters['rf_voltage']	= 0.0418 # 41.8 kV ALWAYS FIXED
 
 # For this case we don't use the tomo file, instead we use the BLonD generated data directly
 # ~ parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_41p8_2023.mat'
 # ~ is_non_zero_file(parameters['tomo_file'])   
 parameters['BLonD_file']='Tomo_Files/BLonD_Longitudinal_Distn_LIU_2023_41p8kV.npz'
-parameters['rf_voltage']        = 0.0418
+parameters['rf_voltage']        = 0.0408
 
 parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
 parameters['LongitudinalJohoParameter'] = 1.2
