@@ -7,6 +7,7 @@ locations = []
 
 locations.append('/Run2_BMCS')
 locations.append('/Run2_Standard')
+locations.append('/Run3_BMCS')
 locations.append('/Run3_Standard_2021')
 locations.append('/Run3_Standard_2022')
 locations.append('/Run3_Standard_2023')
