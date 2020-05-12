@@ -127,7 +127,7 @@ parameters['turns_update'] = sorted(tu)
 # switches
 ########################################################################  
 switches = {
-        'Space_Charge': True
+	'Space_Charge': True,
 	'CreateDistn':	True,
 	'Update_Twiss':	False,
 	'GridSizeX':    128,
