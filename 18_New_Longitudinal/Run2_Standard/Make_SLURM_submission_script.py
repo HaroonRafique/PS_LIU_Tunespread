@@ -25,7 +25,7 @@ folder = cwd.split('/')[-1] # Last part of cwd is folder name
 run = folder.split('_')[0] # First word is Run
 beam = folder.split('_')[1] # Second word is beam selection
 
-if (run is 'Run3') and (beam is 'Standard'):
+if (run == 'Run3') and (beam == 'Standard'):
         year = folder.split('_')[2] # for Run3 Standard we also require the year
         jobname = '18_'+str(run[-1])+'_'+str(beam[0])+'_'+str(year)
         queue = 'batch-long'
