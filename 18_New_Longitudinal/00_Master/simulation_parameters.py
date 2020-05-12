@@ -56,30 +56,30 @@ RFparameters['time'] = np.array([0,1,2])
 ones = np.ones_like(RFparameters['time'])
 
 # LIU parameters: 2GeV
-if parameters['Run'] is 'Run3': 
+if parameters['Run'] == 'Run3': 
         parameters['gamma'] 		= 3.131540798        
         parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
-        if parameters['Beam'] is 'Standard':                
+        if parameters['Beam'] == 'Standard':                
                 parameters['intensity']		= 32.5E11
                 parameters['epsn_x']		= 1.88E-6
                 parameters['epsn_y']		= 1.88E-6
-                if parameters['Year'] is '2021':
+                if parameters['Year'] == '2021':
                         parameters['bunch_length']	= 135E-9
                         parameters['blength']		= 135E-9
                         parameters['dpp_rms']		= 1.1E-03
                         parameters['rf_voltage']	= 0.04954 # SC adjusted 0.04225 # 42.25 kV
-                elif parameters['Year'] is '2022':
+                elif parameters['Year'] == '2022':
                         parameters['bunch_length']	= 170E-9
                         parameters['blength']		= 170E-9
                         parameters['dpp_rms']		= 1.3E-03
                         parameters['rf_voltage']	= 0.04505 # SC adjusted 0.0426 # 42.6 kV
-                elif parameters['Year'] is '2023':
+                elif parameters['Year'] == '2023':
                         parameters['bunch_length']	= 205E-9
                         parameters['blength']		= 205E-9
                         parameters['dpp_rms']		= 1.5E-03
                         parameters['rf_voltage']	= 0.04379 # SC adjusted 0.0418 # 41.8 kV
 
-        elif parameters['Beam'] is 'BCMS':
+        elif parameters['Beam'] == 'BCMS':
 		parameters['intensity']		= 16.25E+11
 		parameters['epsn_x']		= 1.43E-6
 		parameters['epsn_y']		= 1.43E-6
@@ -97,10 +97,10 @@ if parameters['Run'] is 'Run3':
         RFparameters['phase'] = np.array([np.pi*ones]).T
 
 # Run2 parameters: 1.4GeV
-elif parameters['Run'] is 'Run2':
+elif parameters['Run'] == 'Run2':
 	parameters['gamma'] 	= 2.49038064
         parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
-	if parameters['Beam'] is 'Standard':
+	if parameters['Beam'] == 'Standard':
 		parameters['intensity']			= 16.84E+11
 		parameters['epsn_x']			= 2.25E-6
 		parameters['epsn_y']			= 2.25E-6
@@ -108,7 +108,7 @@ elif parameters['Run'] is 'Run2':
 		parameters['bunch_length']		= 180e-9
 		parameters['dpp_rms']			= 0.9E-03
 		parameters['rf_voltage']		= 0.02746 # SC adjusted 0.0251 # 25.1 kV
-	elif parameters['Beam'] is 'BCMS':
+	elif parameters['Beam'] == 'BCMS':
 		parameters['intensity']			= 8.05E+11
 		parameters['epsn_x']			= 1.2E-6
 		parameters['epsn_y']			= 1.2E-6
