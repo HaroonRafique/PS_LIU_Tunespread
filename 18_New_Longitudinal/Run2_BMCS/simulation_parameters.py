@@ -50,7 +50,7 @@ if parameters['Run'] is 'Run3':
         parameters['gamma'] 		= 3.131540798
         
         if parameters['Beam'] is 'Standard':                
-               parameters['intensity']		= 32.5E11
+                parameters['intensity']		= 32.5E11
                 parameters['epsn_x']		= 1.88E-6
                 parameters['epsn_y']		= 1.88E-6
                 if parameters['Year'] is '2021':
