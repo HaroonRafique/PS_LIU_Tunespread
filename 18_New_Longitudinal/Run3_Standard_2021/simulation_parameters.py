@@ -57,26 +57,26 @@ if parameters['Run'] is 'Run3':
                         parameters['bunch_length']	= 135E-9
                         parameters['blength']		= 135E-9
                         parameters['dpp_rms']		= 1.1E-03
-                        parameters['rf_voltage']	= 0.04954# SC adjusted 0.04225 # 42.25 kV
+                        parameters['rf_voltage']	= 0.04954 # SC adjusted 0.04225 # 42.25 kV
                 elif parameters['Year'] is '2022':
                         parameters['bunch_length']	= 170E-9
                         parameters['blength']		= 170E-9
                         parameters['dpp_rms']		= 1.3E-03
-                        parameters['rf_voltage']	= 0.04505# SC adjusted 0.0426 # 42.6 kV
+                        parameters['rf_voltage']	= 0.04505 # SC adjusted 0.0426 # 42.6 kV
                 elif parameters['Year'] is '2023':
                         parameters['bunch_length']	= 205E-9
                         parameters['blength']		= 205E-9
                         parameters['dpp_rms']		= 1.5E-03
-                        parameters['rf_voltage']	= 0.04379# SC adjusted 0.0418 # 41.8 kV
+                        parameters['rf_voltage']	= 0.04379 # SC adjusted 0.0418 # 41.8 kV
 
         elif parameters['Beam'] is 'BCMS':
 		parameters['intensity']		= 16.25E+11
 		parameters['epsn_x']		= 1.43E-6
 		parameters['epsn_y']		= 1.43E-6
 		parameters['blength']		= 135e-9
-		parameters['bunch_length']		= 135e-9
+		parameters['bunch_length']	= 135e-9
 		parameters['dpp_rms']		= 1.1E-03
-		parameters['rf_voltage']	= 0.0392 # SC adjusted 0.03655 # 36.55 kV
+		parameters['rf_voltage']	= 0.03819 # SC adjusted 0.03655 # 36.55 kV
 
 # Run2 parameters: 1.4GeV
 elif parameters['Run'] is 'Run2':
@@ -86,17 +86,17 @@ elif parameters['Run'] is 'Run2':
 		parameters['epsn_x']			= 2.25E-6
 		parameters['epsn_y']			= 2.25E-6
 		parameters['blength']			= 180e-9
-		parameters['bunch_length']			= 180e-9
+		parameters['bunch_length']		= 180e-9
 		parameters['dpp_rms']			= 0.9E-03
-		parameters['rf_voltage']		= 0.0251 # 25.1 kV
+		parameters['rf_voltage']		= 0.02746 # SC adjusted 0.0251 # 25.1 kV
 	elif parameters['Beam'] is 'BCMS':
 		parameters['intensity']			= 8.05E+11
 		parameters['epsn_x']			= 1.2E-6
 		parameters['epsn_y']			= 1.2E-6
 		parameters['blength']			= 150e-9
-		parameters['bunch_length']			= 150e-9
+		parameters['bunch_length']		= 150e-9
 		parameters['dpp_rms']			= 0.8E-03
-		parameters['rf_voltage']		= 0.0212 # 21.2 kV
+		parameters['rf_voltage']		= 0.02273 # SC adjusted 0.0212 # 21.2 kV
                 
                 
 
