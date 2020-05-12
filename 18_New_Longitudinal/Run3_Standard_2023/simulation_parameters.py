@@ -51,7 +51,7 @@ parameters['n_macroparticles']	= int(5E5)
 
 #RF Table
 ########################################################################        
-RFparameters['harmonic_factors'] = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
+RFparameters['harmonic_factors'] = np.array([1]) # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
 RFparameters['time'] = np.array([0,1,2])
 ones = np.ones_like(RFparameters['time'])
 
