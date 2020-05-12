@@ -22,7 +22,7 @@ cwd = os.getcwd() # Get the present directory
 folder = cwd.split('/')[-1] # Last part of cwd is folder name
 run = folder.split('_')[0] # First word is Run
 beam = folder.split('_')[1] # Second word is beam selection
-if (run is 'Run3') and (beam is 'Standard'):
+if (run == 'Run3') and (beam == 'Standard'):
         year = folder.split('_')[2] # for Run3 Standard we also require the year
         print 'simulation_parameters.py:: file read for: ', run, ' ', beam, ' ', year
 else:
@@ -37,7 +37,7 @@ parameters = {}
 parameters['Beam']			= beam
 parameters['Run']			= run
 
-if (parameters['Run'] is 'Run3') and (parameters['Beam'] is 'Standard'):
+if (parameters['Run'] == 'Run3') and (parameters['Beam'] == 'Standard'):
         parameters['Year']			= year
         parameters['BLonD_file']        = '../BLonD_Longitudinal_Distributions/BLonD_Longitudinal_Distn_'+parameters['Run']+'_'+parameters['Beam']+'_'+parameters['Year']+'.npz'
 else:                
