@@ -24,6 +24,11 @@ run = folder.split('_')[0] # First word is Run
 beam = folder.split('_')[1] # Second word is beam selection
 if (run is 'Run3') and (beam is 'Standard'):
         year = folder.split('_')[2] # for Run3 Standard we also require the year
+        print 'simulation_parameters.py:: file read for: ', run, ' ', beam, ' ', year
+else:
+        print 'simulation_parameters.py:: file read for: ', run, ' ', beam
+        
+        
     
 # parameters
 ########################################################################        
@@ -47,8 +52,7 @@ parameters['n_macroparticles']	= int(5E5)
 
 # LIU parameters: 2GeV
 if parameters['Run'] is 'Run3': 
-        parameters['gamma'] 		= 3.131540798
-        
+        parameters['gamma'] 		= 3.131540798        
         if parameters['Beam'] is 'Standard':                
                 parameters['intensity']		= 32.5E11
                 parameters['epsn_x']		= 1.88E-6
