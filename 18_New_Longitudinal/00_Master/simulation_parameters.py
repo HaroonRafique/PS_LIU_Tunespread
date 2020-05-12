@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from math import log10, floor
+c = 299792458
 
 # Functions
 ########################################################################
@@ -27,9 +28,7 @@ if (run == 'Run3') and (beam == 'Standard'):
         print 'simulation_parameters.py:: file read for: ', run, ' ', beam, ' ', year
 else:
         print 'simulation_parameters.py:: file read for: ', run, ' ', beam
-        
-        
-    
+
 # parameters
 ########################################################################        
 parameters = {}
@@ -82,6 +81,9 @@ if parameters['Run'] is 'Run3':
 		parameters['bunch_length']	= 135e-9
 		parameters['dpp_rms']		= 1.1E-03
 		parameters['rf_voltage']	= 0.03819 # SC adjusted 0.03655 # 36.55 kV
+        
+        parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
+        parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
 
 # Run2 parameters: 1.4GeV
 elif parameters['Run'] is 'Run2':
@@ -104,19 +106,15 @@ elif parameters['Run'] is 'Run2':
 		parameters['dpp_rms']			= 0.8E-03
 		parameters['rf_voltage']		= 0.02273 # SC adjusted 0.0212 # 21.2 kV
                 
-                
+        parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
+        parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
 
-parameters['rf_voltage']        = 0.0418
 
 parameters['LongitudinalJohoParameter'] = 1.2
 parameters['LongitudinalCut'] 	= 2.4
 parameters['TransverseCut']	= 5
 parameters['circumference']	= 2*np.pi*100
 parameters['phi_s']		= 0
-parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
-
-c 				= 299792458
-parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
 
 parameters['turns_max'] = int(2.2E3)
 tu1 = range(-1, parameters['turns_max'], 100)
@@ -145,9 +143,9 @@ switches = {
 harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
 time = np.array([0,1,2])
 ones = np.ones_like(time)
-if parameters['Machine'] is 'PreLIU':
+if parameters['Run'] is 'Run2': 
 	Ekin_GeV = 1.4*ones
-elif parameters['Machine'] is 'LIU':
+elif parameters['Run'] is 'Run3': 
 	Ekin_GeV = 2.0*ones
 RF_voltage_MV = np.array([parameters['rf_voltage']*ones]).T # in MV
 RF_phase = np.array([np.pi*ones]).T
