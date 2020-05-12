@@ -48,6 +48,10 @@ parameters['tuney']			= '624'
 parameters['lattice_start'] 	= 'BWSH65'
 parameters['n_macroparticles']	= int(5E5)
 
+#RF Table
+harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
+time = np.array([0,1,2])
+ones = np.ones_like(time)
 
 # LIU parameters: 2GeV
 if parameters['Run'] is 'Run3': 
@@ -84,6 +88,11 @@ if parameters['Run'] is 'Run3':
         
         parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
         parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
+        
+        #RF Table
+        Ekin_GeV = 2.0*ones
+        RF_voltage_MV = np.array([parameters['rf_voltage']*ones]).T # in MV
+        RF_phase = np.array([np.pi*ones]).T
 
 # Run2 parameters: 1.4GeV
 elif parameters['Run'] is 'Run2':
@@ -108,6 +117,12 @@ elif parameters['Run'] is 'Run2':
                 
         parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
         parameters['macrosize']		= parameters['intensity']/float(parameters['n_macroparticles'])
+        
+        #RF Table
+        Ekin_GeV = 1.4*ones
+        RF_voltage_MV = np.array([parameters['rf_voltage']*ones]).T # in MV
+        RF_phase = np.array([np.pi*ones]).T
+        
 
 
 parameters['LongitudinalJohoParameter'] = 1.2
@@ -140,15 +155,15 @@ switches = {
 
 # PTC RF Table Parameters
 ########################################################################  
-harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
-time = np.array([0,1,2])
-ones = np.ones_like(time)
-if parameters['Run'] is 'Run2': 
-	Ekin_GeV = 1.4*ones
-elif parameters['Run'] is 'Run3': 
-	Ekin_GeV = 2.0*ones
-RF_voltage_MV = np.array([parameters['rf_voltage']*ones]).T # in MV
-RF_phase = np.array([np.pi*ones]).T
+# ~ harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
+# ~ time = np.array([0,1,2])
+# ~ ones = np.ones_like(time)
+# ~ if parameters['Run'] is 'Run2': 
+	# ~ Ekin_GeV = 1.4*ones
+# ~ elif parameters['Run'] is 'Run3': 
+	# ~ Ekin_GeV = 2.0*ones
+# ~ RF_voltage_MV = np.array([parameters['rf_voltage']*ones]).T # in MV
+# ~ RF_phase = np.array([np.pi*ones]).T
 
 RFparameters = {
 	'harmonic_factors': harmonic_factors,
