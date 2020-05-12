@@ -776,9 +776,9 @@ def generate_initial_distribution_from_BLonD(parameters, Lattice=None, output_fi
                         # ~ print parameters['BLonD_file'], ' does not contain enough particles to fill the bunch co-ordinates'
                         # ~ exit(0)
         
-        if len(BLonD_data['dz']) not len(z):
+        if len(BLonD_data['dz']) != len(z):
                 print 'generate_initial_distribution_from_BLonD::Warning: input file length does not match number of requested particles'
-        if len(BLonD_data['dE']) not len(dE):
+        if len(BLonD_data['dE']) != len(dE):
                 print 'generate_initial_distribution_from_BLonD::Warning: input file length does not match number of requested particles'
                         
         z = BLonD_data['dz']
