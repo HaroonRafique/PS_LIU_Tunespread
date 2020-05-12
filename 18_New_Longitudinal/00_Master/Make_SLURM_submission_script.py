@@ -17,19 +17,21 @@ autotask = True			# Automatically set nodes to maximum tasks
 clean_all = True		# Clean simulation folder before running (False when resuming pickle checkpoint)
 
 # Must be chosen
-
 # ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
-queue = 'inf-short'
-
-n_nodes = 1 
+n_nodes = 2 
 
 cwd = os.getcwd() # Get the present directory
-folder = cwd.split('/')[-1] # Last part of cwd
-sc = int(folder[0]) # First digit selects space charge 1=True
-vol = int(folder[1]) # Second digit selects voltage change in BLonD (1) or PyORBIT (0)
-digits = int(folder[-2:]) # Use last 2 digits to select our voltage
+folder = cwd.split('/')[-1] # Last part of cwd is folder name
+run = folder.split('_')[0] # First word is Run
+beam = folder.split('_')[1] # Second word is beam selection
 
-jobname = '15_'+str(sc)+str(vol)+'_'+str(digits)
+if (run is 'Run3') and (beam is 'Standard'):
+        year = folder.split('_')[2] # for Run3 Standard we also require the year
+        jobname = '18_'+str(run[-1])+'_'+str(beam[0])+'_'+str(year)
+        queue = 'batch-long'
+else:
+        jobname = '18_'+str(run[-1])+'_'+str(beam)
+        queue = 'batch-short'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
@@ -46,7 +48,7 @@ simulation_file = 'pyOrbit.py'
 #	AUTOMATICALLY FORMAT SCRIPT
 #-----------------------------------------------------------------------  
 
-n_tasks = 0	
+n_tasks = 0
 if autotask:
 	if hyperthreading:
 		if 'batch' in queue: n_tasks = 32

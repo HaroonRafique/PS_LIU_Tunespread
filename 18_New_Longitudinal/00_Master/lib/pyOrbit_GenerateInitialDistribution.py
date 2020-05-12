@@ -775,10 +775,15 @@ def generate_initial_distribution_from_BLonD(parameters, Lattice=None, output_fi
                         # ~ print 'ERROR: pyOrbit_GenerateInitialDistribution::generate_initial_distribution_from_BLonD'
                         # ~ print parameters['BLonD_file'], ' does not contain enough particles to fill the bunch co-ordinates'
                         # ~ exit(0)
+        
+        if len(BLonD_data['dz']) not len(z):
+                print 'generate_initial_distribution_from_BLonD::Warning: input file length does not match number of requested particles'
+        if len(BLonD_data['dE']) not len(dE):
+                print 'generate_initial_distribution_from_BLonD::Warning: input file length does not match number of requested particles'
                         
         z = BLonD_data['dz']
         dE = (BLonD_data['dE']/ 1E9)
-                        
+
 	# We need to convert z into phi
 	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
 	R = parameters['circumference'] / 2 / np.pi

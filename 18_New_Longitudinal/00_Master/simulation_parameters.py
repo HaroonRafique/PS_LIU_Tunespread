@@ -34,6 +34,9 @@ parameters['Run']			= run
 
 if (parameters['Run'] is 'Run3') and (parameters['Beam'] is 'Standard'):
         parameters['Year']			= year
+        parameters['BLonD_file']        = '../BLonD_Longitudinal_Distributions/BLonD_Longitudinal_Distn_'+parameters['Run']+'_'+parameters['Beam']+'_'+parameters['Year']+'.npz'
+else:                
+        parameters['BLonD_file']        = '../BLonD_Longitudinal_Distributions/BLonD_Longitudinal_Distn_'+parameters['Run']+'_'+parameters['Beam']+'.npz'
 
 parameters['tunex']			= '621'
 parameters['tuney']			= '624'
@@ -46,8 +49,8 @@ parameters['n_macroparticles']	= int(5E5)
 if parameters['Run'] is 'Run3': 
         parameters['gamma'] 		= 3.131540798
         
-        if parameters['Beam'] is 'Standard':
-                parameters['intensity']		= 32.5E11
+        if parameters['Beam'] is 'Standard':                
+               parameters['intensity']		= 32.5E11
                 parameters['epsn_x']		= 1.88E-6
                 parameters['epsn_y']		= 1.88E-6
                 if parameters['Year'] is '2021':
@@ -96,10 +99,7 @@ elif parameters['Run'] is 'Run2':
 		parameters['rf_voltage']		= 0.0212 # 21.2 kV
                 
                 
-# For this case we don't use the tomo file, instead we use the BLonD generated data directly
-# ~ parameters['tomo_file']		='Tomo_Files/PyORBIT_Tomo_file_LIU_Ramp_Up_Standard_41p8_2023.mat'
-# ~ is_non_zero_file(parameters['tomo_file'])   
-parameters['BLonD_file']='Tomo_Files/BLonD_Longitudinal_Distn_LIU_2023_41p8kV.npz'
+
 parameters['rf_voltage']        = 0.0418
 
 parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
@@ -113,10 +113,13 @@ parameters['macrosize']		= parameters['intensity']/float(parameters['n_macropart
 c 				= 299792458
 parameters['sig_z'] 	= (parameters['beta'] * c * parameters['blength'])/4.
 
-parameters['turns_max'] = int(1.5E3)
+parameters['turns_max'] = int(2.2E3)
 tu1 = range(-1, parameters['turns_max'], 100)
-#tu2 = range(0, 50)
-tu =  tu1
+tu2 = range(50, 100, 10) 
+tu3 = range(1, 50)
+tu = tu2 + tu1 + tu3 
+tu.append(874) # WS 172s
+tu.append(2185)# WS 175s
 
 parameters['turns_print'] = sorted(tu)
 parameters['turns_update'] = sorted(tu)
@@ -131,7 +134,6 @@ switches = {
 	'GridSizeY':    128,
 	'GridSizeZ':    64
 }
-
 
 # PTC RF Table Parameters
 ########################################################################  
