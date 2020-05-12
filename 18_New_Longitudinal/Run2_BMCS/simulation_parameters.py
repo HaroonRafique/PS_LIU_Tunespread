@@ -53,6 +53,7 @@ parameters['n_macroparticles']	= int(5E5)
 # LIU parameters: 2GeV
 if parameters['Run'] is 'Run3': 
         parameters['gamma'] 		= 3.131540798        
+        parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
         if parameters['Beam'] is 'Standard':                
                 parameters['intensity']		= 32.5E11
                 parameters['epsn_x']		= 1.88E-6
@@ -85,6 +86,7 @@ if parameters['Run'] is 'Run3':
 # Run2 parameters: 1.4GeV
 elif parameters['Run'] is 'Run2':
 	parameters['gamma'] 	= 2.49038064
+        parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
 	if parameters['Beam'] is 'Standard':
 		parameters['intensity']			= 16.84E+11
 		parameters['epsn_x']			= 2.25E-6
@@ -106,7 +108,6 @@ elif parameters['Run'] is 'Run2':
 
 parameters['rf_voltage']        = 0.0418
 
-parameters['beta'] 		= np.sqrt(parameters['gamma']**2-1)/parameters['gamma']
 parameters['LongitudinalJohoParameter'] = 1.2
 parameters['LongitudinalCut'] 	= 2.4
 parameters['TransverseCut']	= 5
