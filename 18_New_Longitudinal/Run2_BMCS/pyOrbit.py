@@ -125,7 +125,7 @@ orbit_mpi.MPI_Barrier(comm)
 print '\n\t\tCreate RF file on MPI process: ', rank
 from lib.write_ptc_table import write_RFtable
 from simulation_parameters import RFparameters as RF 
-print RF
+# ~ print RF
 write_RFtable('input/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
 
 # Initialize a Teapot-Style PTC lattice
