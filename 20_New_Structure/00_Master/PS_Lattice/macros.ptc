@@ -1,0 +1,176 @@
+ptc_twiss_macro(order, dp, slice_flag): macro = {
+  select, flag=ptc_twiss, column=name,keyword,s,x,px,y,py,t,pt,beta11,alfa11,beta22,alfa22,disp1,disp,disp3,disp4,gamma11,gamma22,mu1,mu2,energy,l,angle,K0L,K0SL,K1L,K1SL,K2L,K2SL,K3L,K3SL,K4L,K4SL,K5L,K5SL,VKICK,HKICK,SLOT_ID;
+  ptc_create_universe;
+  ptc_create_layout, time=false, model=2, exact=true, method=6, nst=3;
+  IF (slice_flag == 1){
+    ptc_twiss, closed_orbit, icase=56, no=order, deltap=dp, table=ptc_twiss, summary_table=ptc_twiss_summary, slice_magnets=true;
+  }
+  ELSE{
+    ptc_twiss, closed_orbit, icase=56, no=order, deltap=dp, table=ptc_twiss, summary_table=ptc_twiss_summary, normal;
+  }
+  ptc_end;
+};
+
+write_ptc_twiss(filename) : macro = {
+  write, table=ptc_twiss, file=filename;
+};
+
+ptc_twiss_MTE_macro(order, x1, x2, slice_flag): macro = {
+  select, flag=ptc_twiss, column=name,keyword,s,x,px,y,py,t,pt,beta11,alfa11,beta22,alfa22,disp1,disp,disp3,disp4,gamma11,gamma22,mu1,mu2,energy,l,angle,K0L,K0SL,K1L,K1SL,K2L,K2SL,K3L,K3SL,K4L,K4SL,K5L,K5SL,VKICK,HKICK,SLOT_ID;
+  ptc_create_universe;
+  ptc_create_layout, time=false, model=2, method=6, nst=3, exact=true;
+  IF (slice_flag == 1){
+    ptc_twiss, closed_orbit, icase=56, no=order, table=ptc_twiss, summary_table=ptc_twiss_summary, x = x1, px = x2, slice_magnets=true;
+  }
+  ELSE{
+    ptc_twiss, closed_orbit, icase=56, no=order, table=ptc_twiss, summary_table=ptc_twiss_summary, x = x1, px = x2;
+  }
+  ptc_end;
+};
+
+write_str_file(filename): macro = {
+  assign, echo = filename;
+  print, text = "/**********************************************************************************";
+  print, text = "*                             SBENDs and MULTIPOLES in MUs";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, K1_F, K1_D, K2_F, K2_D, MPK2, MPK2_J, MPK3_F, MPK3_D;
+  print, text = "";
+  print, text = "/**********************************************************************************";
+  print, text = "*                                    PFW and F8L";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, PFWK1_F, PFWK1_D, PFWK2_F, PFWK2_D, PFWK3_F, PFWK3_D, F8LK1;
+  print, text = "";
+  print, text = "/**********************************************************************************";
+  print, text = "*                                         LEQs";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, KF, KD;
+  assign, echo = terminal;
+};
+
+write_MTE_str_file(filename): macro = {
+  assign, echo = filename;
+  print, text = "/**********************************************************************************";
+  print, text = "*                             SBENDs and MULTIPOLES in MUs";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, K1_F, K1_D, K2_F, K2_D, MPK2, MPK2_J, MPK3_F, MPK3_D;
+  print, text = "";
+  print, text = "/**********************************************************************************";
+  print, text = "*                                    PFW and F8L";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, PFWK1_F, PFWK1_D, PFWK2_F, PFWK2_D, PFWK3_F, PFWK3_D, F8LK1;
+  print, text = "";
+  print, text = "/**********************************************************************************";
+  print, text = "*                                         LEQs";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, KF, KD;
+  print, text = "";
+  print, text = "/**********************************************************************************";
+  print, text = "*                                     MTE elements";
+  print, text = "***********************************************************************************/";
+  print, text = "";
+  value, KXNO39, KXNO55, KONO39, KONO55, KODN;
+  print, text = "";
+  assign, echo = terminal;
+};
+
+! Override existing macro in macros file due to bug when using MAD-X 5.02
+ptc_twiss_macro(order): macro = {
+	select, flag=ptc_twiss, column=name,keyword,s,x,px,y,py,t,pt,beta11,alfa11,beta22,alfa22,disp1,disp2,disp3,disp4,gamma11,gamma22,mu1,mu2,energy,l,angle,K0L,K0SL,K1L,K1SL,K2L,K2SL,K3L,K3SL,K4L,K4SL,K5L,K5SL,VKICK,HKICK,SLOT_ID;
+	ptc_create_universe;
+	ptc_create_layout, time=false, model=2, exact=true, method=6, nst=3;
+	ptc_twiss, closed_orbit, icase=56, no=order, table=ptc_twiss, summary_table=ptc_twiss_summary;  
+	ptc_end;
+};
+
+match_Tunes(PFW_flag, QQx, QQy): macro={
+	IF(PFW_flag == 0){
+	print, text = "/***************************************************";
+	print, text = "  Matching Tune using Low Energy Quads";
+	print, text = "/***************************************************";
+ 	match, use_macro;
+		vary, name = kf, step=1.0E-6 ;
+		vary, name = kd, step=1.0E-6 ;
+		use_macro, name = ptc_twiss_macro(2);
+		constraint, expr = table(ptc_twiss_summary,q1)  = QQx;
+		constraint, expr = table(ptc_twiss_summary,q2)  = QQy;
+	jacobian,calls=50000,bisec=3;
+	ENDMATCH;
+	}
+	ELSEIF(PFW_flag == 1){
+	print, text = "/***************************************************";
+	print, text = "  Matching Tune using Pole Face Windings";
+	print, text = "/***************************************************";
+	match, use_macro;
+		vary, name = pfwk1_f;
+		vary, name = pfwk1_d;
+		use_macro, name = ptc_twiss_macro(2);
+		constraint, expr = table(ptc_twiss_summary,q1)  = QQx;
+		constraint, expr = table(ptc_twiss_summary,q2)  = QQy;
+	jacobian,calls=50000,bisec=3;
+	ENDMATCH;
+	}
+	value, kf, kd, pfwk1_f, pfwk1_d;
+};
+
+match_Chroma_PFW(QQxp, QQyp, QQxp2, QQyp2): macro={
+	print, text = "/***************************************************";
+	print, text = "  Matching Chromaticity using Pole Face Windings";
+	print, text = "/***************************************************";
+	match, use_macro;
+		vary, name = pfwk2_f;
+		vary, name = pfwk2_d;
+		vary, name = pfwk3_f;
+		vary, name = pfwk3_d;
+		use_macro, name = ptc_twiss_macro(2);
+		constraint, expr = table(ptc_twiss_summary,dq1) = QQxp;
+		constraint, expr = table(ptc_twiss_summary,dq2) = QQyp;
+		! These require the `normal' ptc_twiss flag which doesn't seem to work with MAD-X 5.02
+		!constraint, expr = table(nonlin,value,5)  = QQxp2;
+		!constraint, expr = table(nonlin,value,10) = QQyp2;
+	jacobian,calls=50000,bisec=3;
+	ENDMATCH;
+	value, pfwk2_f, pfwk2_d, pfwk3_f, pfwk3_d;
+};
+
+distributed_qfn_error(beta_beating): macro={
+  print, text = "/***************************************************";
+  print, text = "  Implementing distributed errors on QFN quadrupoles";
+  print, text = "/***************************************************";
+  Delta_k_new := 0.00015 * beta_beating;
+  EOPTION, ADD=false;
+  SELECT,FLAG=ERROR,CLEAR;
+  SELECT,FLAG=ERROR,PATTERN="QFN*";
+  EFCOMP, DKN:={0,Delta_k_new*tgauss(3),0}; 
+  value, Delta_k_new;
+};
+
+QDN78_error(beta_beating): macro={
+  print, text = "/***************************************************";
+  print, text = "  Implementing QDN78 error";
+  print, text = "/***************************************************";
+  !beta_0 = 22.35981157; !value @ QDN72
+  L_Q = 0.12;
+  beta_0 = 21.45106468; !value @ QDN78
+  value, beta_0;
+
+  Delta_k_unit = ( (2 * sin(twopi*tune_y) ) / (beta_0 * L_Q) );
+  value, Delta_k_unit;
+
+  !Delta_k := 1.05 * ( (2 * sin(twopi*(6+tune_y)) ) / (beta_0) );
+  !Delta_k := beta_beating * 0.013781475; !For specific MD4224 optics
+  !Delta_k_unit_old := 0.000510425; !For specific MD4224 optics
+
+  Delta_k_new := beta_beating * -Delta_k_unit;
+  value, Delta_k_new;
+
+  EOPTION, ADD=false;
+  SELECT,FLAG=ERROR,CLEAR;
+  SELECT,FLAG=ERROR,PATTERN=PR.QDN78;
+  EFCOMP, DKN:={0,Delta_k_new,0}; 
+};
