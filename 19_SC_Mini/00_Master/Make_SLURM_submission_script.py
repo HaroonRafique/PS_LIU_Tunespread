@@ -27,7 +27,7 @@ beam = folder.split('_')[1] # Second word is beam selection
 
 if (run == 'Run3') and (beam == 'Standard'):
         year = folder.split('_')[2] # for Run3 Standard we also require the year
-        jobname = '19_'+str(run[-1])+'_'+str(beam[0])+'_'+str(year)[-2:]
+        jobname = '19_'+str(run[-1])+'_'+str(beam[0])+str(year)[-2:]
         queue = 'inf-short'
 else:
         jobname = '19'+str(run[-1])+'_'+str(beam)
