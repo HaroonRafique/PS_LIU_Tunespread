@@ -774,13 +774,13 @@ def generate_initial_distribution_from_BLonD(parameters, Lattice=None, output_fi
                 # ~ except IndexError:
                         # ~ print 'ERROR: pyOrbit_GenerateInitialDistribution::generate_initial_distribution_from_BLonD'
                         # ~ print parameters['BLonD_file'], ' does not contain enough particles to fill the bunch co-ordinates'
-                        # ~ exit(0)
+                        # ~ exit(0)        
         
         if len(BLonD_data['dz']) <= parameters['n_macroparticles']:
-                print 'generate_initial_distribution_from_BLonD::Error: input array length', len(BLonD_data['dz']) ' does not meet number of requested particles', parameters['n_macroparticles']
+                print 'generate_initial_distribution_from_BLonD::Error: input array length', len(BLonD_data['dz']), ' does not meet number of requested particles', parameters['n_macroparticles']
                 exit(0)
         if len(BLonD_data['dE']) <= parameters['n_macroparticles']:
-                print 'generate_initial_distribution_from_BLonD::Error: input file length', len(BLonD_data['dE']) ' does not meet number of requested particles', parameters['n_macroparticles']
+                print 'generate_initial_distribution_from_BLonD::Error: input file length', len(BLonD_data['dE']), ' does not meet number of requested particles', parameters['n_macroparticles']
                 exit(0)
                         
         z = BLonD_data['dz']
