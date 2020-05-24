@@ -491,102 +491,103 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 
 # Plotting
 #-----------------------------------------------------------------------
-if not rank:
+if s['Update_Twiss']:
+        if not rank:
         
-        import matplotlib.pyplot as plt
-        
-        plt.rcParams['figure.figsize'] = [8.0, 5.0]
-        plt.rcParams['figure.dpi'] = 300
-        plt.rcParams['savefig.dpi'] = 300
+                import matplotlib.pyplot as plt
+                
+                plt.rcParams['figure.figsize'] = [8.0, 5.0]
+                plt.rcParams['figure.dpi'] = 300
+                plt.rcParams['savefig.dpi'] = 300
 
-        plt.rcParams['axes.titlesize'] = 14
-        plt.rcParams['axes.labelsize'] = 14
+                plt.rcParams['axes.titlesize'] = 14
+                plt.rcParams['axes.labelsize'] = 14
 
-        plt.rcParams['xtick.labelsize'] = 10
-        plt.rcParams['ytick.labelsize'] = 10
+                plt.rcParams['xtick.labelsize'] = 10
+                plt.rcParams['ytick.labelsize'] = 10
 
-        plt.rcParams['font.size'] = 10
-        plt.rcParams['legend.fontsize'] = 10
+                plt.rcParams['font.size'] = 10
+                plt.rcParams['legend.fontsize'] = 10
 
-        plt.rcParams['lines.linewidth'] = 1
-        plt.rcParams['lines.markersize'] = 5
-        
-	PTC_Twiss.PrintOrbitExtrema('.')
-	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
-	TwissDict = PTC_Twiss.ReturnTwissDict()
-	TurnList = PTC_Twiss.ReturnTurnList()
+                plt.rcParams['lines.linewidth'] = 1
+                plt.rcParams['lines.markersize'] = 5
+                
+                PTC_Twiss.PrintOrbitExtrema('.')
+                PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
+                TwissDict = PTC_Twiss.ReturnTwissDict()
+                TurnList = PTC_Twiss.ReturnTurnList()
 
-	colors = matplotlib.cm.rainbow(np.linspace(0, 1, len(TurnList)))
+                colors = matplotlib.cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
-	# some gymnastics to avoid plotting offset elements ...
-	roll = 284
-	circumference = 25*2*np.pi
-	s = TwissDict[0]['s']
-	s[roll:] -= circumference
-	s[roll] = np.nan
-	i2plot = range(len(s))
-	for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
-
-
-	f, ax = matplotlib.pyplot.subplots()
-	for t in TurnList:
-		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s [m]')
-	ax.set_ylabel('horizontal CO (mm)')
-        ax.grid(lw=0.5, ls=':');
-	# ~ ax.set_xlim(-15,15)
-	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
-	matplotlib.pyplot.savefig(savename, dpi=400)
+                # some gymnastics to avoid plotting offset elements ...
+                roll = 284
+                circumference = 25*2*np.pi
+                s = TwissDict[0]['s']
+                s[roll:] -= circumference
+                s[roll] = np.nan
+                i2plot = range(len(s))
+                for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
 
 
-	i2plot = range(len(s))
-	for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
+                f, ax = matplotlib.pyplot.subplots()
+                for t in TurnList:
+                        ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
+                ax.set_xlabel('s [m]')
+                ax.set_ylabel('horizontal CO (mm)')
+                ax.grid(lw=0.5, ls=':');
+                # ~ ax.set_xlim(-15,15)
+                savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+                matplotlib.pyplot.savefig(savename, dpi=400)
 
 
-	f, ax = matplotlib.pyplot.subplots()
-	for t in TurnList:
-		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s [m]')
-	ax.set_ylabel(r'$\beta_x$ [m]')
-	ax.set_ylim(bottom=0)
-        ax.grid(lw=0.5, ls=':');
-	savename = str('Plots/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
-	matplotlib.pyplot.savefig(savename, dpi=400)
+                i2plot = range(len(s))
+                for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
 
 
-	f, ax = matplotlib.pyplot.subplots()
-	for t in TurnList:
-		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-	ax.set_xlabel('s [m]')
-	ax.set_ylabel(r'$\beta_y$ [m]')
-	ax.set_ylim(bottom=0)
-        ax.grid(lw=0.5, ls=':');
-	savename = str('Plots/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
-	matplotlib.pyplot.savefig(savename, dpi=400)
+                f, ax = matplotlib.pyplot.subplots()
+                for t in TurnList:
+                        ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+                ax.set_xlabel('s [m]')
+                ax.set_ylabel(r'$\beta_x$ [m]')
+                ax.set_ylim(bottom=0)
+                ax.grid(lw=0.5, ls=':');
+                savename = str('Plots/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
+                matplotlib.pyplot.savefig(savename, dpi=400)
 
 
-	f, ax = matplotlib.pyplot.subplots()
-	for t in TurnList:
-		beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
-		beta_y = np.array(TwissDict[t]['beta_y'])
-		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
-	ax.set_xlabel('s [m]')
-	ax.set_ylabel(r'$\beta_y$ [m]')
-        ax.grid(lw=0.5, ls=':');
-	savename = str('Plots/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
-	matplotlib.pyplot.savefig(savename, dpi=400)
+                f, ax = matplotlib.pyplot.subplots()
+                for t in TurnList:
+                        ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+                ax.set_xlabel('s [m]')
+                ax.set_ylabel(r'$\beta_y$ [m]')
+                ax.set_ylim(bottom=0)
+                ax.grid(lw=0.5, ls=':');
+                savename = str('Plots/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
+                matplotlib.pyplot.savefig(savename, dpi=400)
 
 
-	f, ax = matplotlib.pyplot.subplots()
-	for t in TurnList:
-		beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
-		beta_x = np.array(TwissDict[t]['beta_x'])
-		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
-	ax.set_xlabel('s [m]')
-	ax.set_ylabel(r'$\beta_x$ [m]')
-        ax.grid(lw=0.5, ls=':');
-	savename = str('Plots/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
-	matplotlib.pyplot.savefig(savename, dpi=400)
+                f, ax = matplotlib.pyplot.subplots()
+                for t in TurnList:
+                        beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
+                        beta_y = np.array(TwissDict[t]['beta_y'])
+                        ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
+                ax.set_xlabel('s [m]')
+                ax.set_ylabel(r'$\beta_y$ [m]')
+                ax.grid(lw=0.5, ls=':');
+                savename = str('Plots/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+                matplotlib.pyplot.savefig(savename, dpi=400)
 
 
-	matplotlib.pyplot.close('all')
+                f, ax = matplotlib.pyplot.subplots()
+                for t in TurnList:
+                        beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
+                        beta_x = np.array(TwissDict[t]['beta_x'])
+                        ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
+                ax.set_xlabel('s [m]')
+                ax.set_ylabel(r'$\beta_x$ [m]')
+                ax.grid(lw=0.5, ls=':');
+                savename = str('Plots/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+                matplotlib.pyplot.savefig(savename, dpi=400)
+
+
+                matplotlib.pyplot.close('all')
