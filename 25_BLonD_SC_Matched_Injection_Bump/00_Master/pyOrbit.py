@@ -446,10 +446,10 @@ output.addParameter('cumulative_time', lambda: (time.time() - start_time))
 if s['Update_Twiss']:
         if sts['turn'] == -1:
                 PTC_Twiss.UpdatePTCTwiss(Lattice, sts['turn'])
-                output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter('orbit_x', sts['turn']))
-                output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter('orbit_x', sts['turn']))
-                output.addParameter('orbit_y_min', lambda: PTC_Twiss.GetMinParameter('orbit_y', sts['turn']))
-                output.addParameter('orbit_y_max', lambda: PTC_Twiss.GetMaxParameter('orbit_y', sts['turn']))
+        output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter('orbit_x', turn))
+        output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter('orbit_x', turn))
+        output.addParameter('orbit_y_min', lambda: PTC_Twiss.GetMinParameter('orbit_y', turn))
+        output.addParameter('orbit_y_max', lambda: PTC_Twiss.GetMaxParameter('orbit_y', turn))
 
 output.update()
 
@@ -465,7 +465,9 @@ last_time = time.time()
 print '\n\t\tstart time = ', start_time
 
 for turn in range(sts['turn']+1, sts['turns_max']):
-	if not rank:	last_time = time.time()
+	if not rank:
+                PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
+                last_time = time.time()
 
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
