@@ -9,7 +9,7 @@ import matplotlib
 import numpy as np
 import scipy.io as sio
 from scipy.stats import moment
-import matplotlib.colormap as cm
+from matplotlib import cm
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
