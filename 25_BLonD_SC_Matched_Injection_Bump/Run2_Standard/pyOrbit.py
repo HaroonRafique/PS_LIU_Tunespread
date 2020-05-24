@@ -1,13 +1,15 @@
-import math
+import os
 import sys
+import math
 import time
-import orbit_mpi
 import timeit
+import pickle
+import orbit_mpi
+import matplotlib
 import numpy as np
 import scipy.io as sio
 from scipy.stats import moment
-import pickle
-import os
+#import matplotlib.pyplot as plt
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -498,8 +500,6 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 #-----------------------------------------------------------------------
 if s['Update_Twiss']:
         if not rank:
-        
-                import matplotlib.pyplot as plt
                 
                 plt.rcParams['figure.figsize'] = [8.0, 5.0]
                 plt.rcParams['figure.dpi'] = 300
@@ -522,7 +522,7 @@ if s['Update_Twiss']:
                 TwissDict = PTC_Twiss.ReturnTwissDict()
                 TurnList = PTC_Twiss.ReturnTurnList()
 
-                colors = matplotlib.cm.rainbow(np.linspace(0, 1, len(TurnList)))
+                colors = matplotlib.colormap.rainbow(np.linspace(0, 1, len(TurnList)))
 
                 # some gymnastics to avoid plotting offset elements ...
                 roll = 284
