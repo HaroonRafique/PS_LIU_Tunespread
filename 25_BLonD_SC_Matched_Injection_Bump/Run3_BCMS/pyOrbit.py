@@ -358,6 +358,8 @@ get_eps_z = lambda b, bta: 1e9 * 4 * pi * bta.getEmittance(2) / (speed_of_light*
 output_file = 'output/output.mat'
 output = Output_dictionary()
 output.addParameter('turn', lambda: turn)
+output.addParameter('Qx', lambda: GetTunesFromPTC()[0])
+output.addParameter('Qy', lambda: GetTunesFromPTC()[1])
 output.addParameter('epsn_x', lambda: bunchtwissanalysis.getEmittanceNormalized(0))
 output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(1))
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
