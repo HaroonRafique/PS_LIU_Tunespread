@@ -836,3 +836,120 @@ def generate_initial_distribution_from_BLonD(parameters, Lattice=None, output_fi
 	orbit_mpi.MPI_Barrier(comm)
 
 	return output_file
+
+def generate_initial_distribution_from_BLonD_manual_Twiss(parameters, TwissDict, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
+
+	# Get parameters from the TwissDict dictionary
+	parameters['alphax0'] = TwissDict['alpha_x']
+	parameters['betax0']  = TwissDict['beta_x']
+	parameters['alphay0'] = TwissDict['alpha_y']
+	parameters['betay0']  = TwissDict['beta_y']
+	parameters['etax0']   = TwissDict['D_x']
+	parameters['etapx0']  = TwissDict['D_xp']
+	parameters['etay0']   = TwissDict['D_y']
+	parameters['etapy0']  = TwissDict['D_yp']
+	parameters['x0']      = TwissDict['x0']
+	parameters['xp0']     = TwissDict['xp0']
+	parameters['y0']      = TwissDict['y0']
+	parameters['yp0']     = TwissDict['yp0']
+	parameters['gamma_transition'] = TwissDict['gamma_transition']
+	parameters['circumference']    = TwissDict['circumference']
+	parameters['length'] = TwissDict['length']
+	
+	# Create Twiss containers
+	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
+	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
+	dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
+	dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
+	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
+	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
+
+	# Initialize empty particle arrays
+	x = np.zeros(parameters['n_macroparticles'])
+	xp = np.zeros(parameters['n_macroparticles'])
+	y = np.zeros(parameters['n_macroparticles'])
+	yp = np.zeros(parameters['n_macroparticles'])
+	z = np.zeros(parameters['n_macroparticles'])
+	phi = np.zeros(parameters['n_macroparticles'])
+	dE = np.zeros(parameters['n_macroparticles'])
+
+
+	# Instatiate the classes for longitudinal and transverse distns
+	Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
+
+        # Open BLonD file
+        BLonD_data = np.load(parameters['BLonD_file'])        
+        
+        # Old iterative method
+        # ~ for i in range(parameters['n_macroparticles']):
+                # ~ try:
+                        # ~ # Set co-ordinates
+                        # ~ z[i] = BLonD_data['dz'][i]
+                        # ~ phi[i] = -1 * z[i] * h_main / R
+                        # ~ dE[i] = (BLonD_data['dE'][i] / 1E9) # in eV
+                        # ~ print i, ': ', z[i]
+                # ~ except IndexError:
+                        # ~ print 'ERROR: pyOrbit_GenerateInitialDistribution::generate_initial_distribution_from_BLonD'
+                        # ~ print parameters['BLonD_file'], ' does not contain enough particles to fill the bunch co-ordinates'
+                        # ~ exit(0)
+                        
+        if len(BLonD_data['dz']) <= (parameters['n_macroparticles']-1):
+                print 'generate_initial_distribution_from_BLonD::Error: input array length', len(BLonD_data['dz']), ' does not meet number of requested particles', parameters['n_macroparticles']
+                exit(0)
+        if len(BLonD_data['dE']) <= (parameters['n_macroparticles']-1):
+                print 'generate_initial_distribution_from_BLonD::Error: input file length', len(BLonD_data['dE']), ' does not meet number of requested particles', parameters['n_macroparticles']
+                exit(0)
+                
+        z = BLonD_data['dz']
+        dE = (BLonD_data['dE']/ 1E9)
+                        
+	# We need to convert z into phi
+	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+	R = parameters['circumference'] / 2 / np.pi
+	phi = - z * h_main / R
+
+	# Write the distn to a file only on one CPU
+	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+	if orbit_mpi.MPI_Comm_rank(comm) == 0:
+		
+		with open(output_file,"w") as fid:
+			
+			csv_writer = csv.writer(fid, delimiter=' ')
+			for i in range(parameters['n_macroparticles']):
+                                phi[i] = -1 * z[i] * h_main / R
+				# ~ (z[i], dE[i]) = Longitudinal_distribution.getCoordinates()
+				# ~ z[i] = z[i] * speed_of_light * parameters['beta'] * 1e-9 # convert ns to s and then m
+				# ~ dE[i] = dE[i] * 1e-3 # convert from MeV to GeV
+				(x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
+				x[i] += closedOrbitx['x0']
+				xp[i] += closedOrbitx['xp0']
+				y[i] += closedOrbity['y0']
+				yp[i] += closedOrbity['yp0']
+				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2 * 1E9
+				#print '\n dpp = ', dpp
+				x[i] += dpp * dispersionx['etax0']
+				xp[i] += dpp * dispersionx['etapx0']
+				y[i] += dpp * dispersiony['etay0']
+				yp[i] += dpp * dispersiony['etapy0']
+
+				# ~ if outputFormat == 'Orbit':
+				x[i] *= 1000.
+				xp[i] *= 1000.
+				y[i] *= 1000.
+				yp[i] *= 1000.
+				# ~ dE[i] /= 1.e9
+
+			# ~ if outputFormat == 'Orbit':
+			map(lambda i: csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]]), range(parameters['n_macroparticles']))	
+			# ~ elif outputFormat == 'pyOrbit':
+				# ~ map(lambda i: csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]]), range(parameters['n_macroparticles']))	
+				
+		if summary_file:
+			with open(summary_file, 'w') as fid:
+				map(lambda key: fid.write(key + ' = ' + str(parameters[key]) + '\n'), parameters)
+				
+		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
+
+	orbit_mpi.MPI_Barrier(comm)
+
+	return output_file
