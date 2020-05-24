@@ -140,7 +140,7 @@ def CheckAndReadPTCFile(f):
 
 # Function to open TWISS_PTC_table.OUT and return fractional tunes
 def GetTunesFromPTC():
-	readScriptPTC_noSTDOUT('../PTC/twiss_script.ptc')
+	readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
 	with open('TWISS_PTC_table.OUT') as f:
 		first_line = f.readline()
 		Qx = (float(first_line.split()[2]))
