@@ -49,7 +49,7 @@ parameters['tunex']			= '621'
 parameters['tuney']			= '624'
 
 parameters['lattice_start'] 	= 'BWSH65'
-parameters['n_macroparticles']	= int(1) #int(5E5)
+parameters['n_macroparticles']	= int(10) #int(5E5) # Minimum 2
 
 #RF Table
 ########################################################################        

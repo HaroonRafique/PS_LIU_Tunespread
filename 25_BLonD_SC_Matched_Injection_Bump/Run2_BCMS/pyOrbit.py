@@ -485,8 +485,9 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
-                        with open(ptc_dictionary_file, 'w') as sid:
-                                pickle.dump(PTC_Twiss, sid)
+                        if s['Update_Twiss']:
+                                with open(ptc_dictionary_file, 'w') as sid:
+                                        pickle.dump(PTC_Twiss, sid)
 
 # Plotting
 #-----------------------------------------------------------------------
