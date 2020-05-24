@@ -9,7 +9,7 @@ import matplotlib
 import numpy as np
 import scipy.io as sio
 from scipy.stats import moment
-#import matplotlib.pyplot as plt
+import matplotlib.colormap as cm
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -522,7 +522,7 @@ if s['Update_Twiss']:
                 TwissDict = PTC_Twiss.ReturnTwissDict()
                 TurnList = PTC_Twiss.ReturnTurnList()
 
-                colors = matplotlib.colormap.rainbow(np.linspace(0, 1, len(TurnList)))
+                colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
                 # some gymnastics to avoid plotting offset elements ...
                 roll = 284
