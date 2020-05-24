@@ -389,7 +389,7 @@ output.addParameter('gamma', lambda: bunch.getSyncParticle().gamma())
 # Pre Track Bunch Twiss Analysis & Add BunchGather outputs
 #-----------------------------------------------------------------------
 print '\n\t\tStart tracking on MPI process: ', rank
-turn = -1
+turn = 0 
 bunchtwissanalysis.analyzeBunch(bunch)
 moments = BunchGather(bunch, turn, p) # Calculate bunch moments and kurtosis
 
