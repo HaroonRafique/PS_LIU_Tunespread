@@ -389,7 +389,7 @@ output.addParameter('gamma', lambda: bunch.getSyncParticle().gamma())
 # Pre Track Bunch Twiss Analysis & Add BunchGather outputs
 #-----------------------------------------------------------------------
 print '\n\t\tStart tracking on MPI process: ', rank
-turn = 0 
+turn = -1 
 bunchtwissanalysis.analyzeBunch(bunch)
 moments = BunchGather(bunch, turn, p) # Calculate bunch moments and kurtosis
 
@@ -444,11 +444,12 @@ output.addParameter('cumulative_time', lambda: (time.time() - start_time))
 
 # PTC_Twiss must be updated before updating output
 if s['Update_Twiss']:
-	PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
-	output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter('orbit_x', turn))
-	output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter('orbit_x', turn))
-	output.addParameter('orbit_y_min', lambda: PTC_Twiss.GetMinParameter('orbit_y', turn))
-	output.addParameter('orbit_y_max', lambda: PTC_Twiss.GetMaxParameter('orbit_y', turn))
+        if sts['turn'] = -1:
+                PTC_Twiss.UpdatePTCTwiss(Lattice, sts['turn'])
+                output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter('orbit_x', sts['turn']))
+                output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter('orbit_x', sts['turn']))
+                output.addParameter('orbit_y_min', lambda: PTC_Twiss.GetMinParameter('orbit_y', sts['turn']))
+                output.addParameter('orbit_y_max', lambda: PTC_Twiss.GetMaxParameter('orbit_y', sts['turn']))
 
 output.update()
 
