@@ -444,7 +444,7 @@ output.addParameter('cumulative_time', lambda: (time.time() - start_time))
 
 # PTC_Twiss must be updated before updating output
 if s['Update_Twiss']:
-        if sts['turn'] = -1:
+        if sts['turn'] == -1:
                 PTC_Twiss.UpdatePTCTwiss(Lattice, sts['turn'])
                 output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter('orbit_x', sts['turn']))
                 output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter('orbit_x', sts['turn']))
