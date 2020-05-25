@@ -179,7 +179,7 @@ plot, table=ptc_twiss, haxis=s, vaxis=x, hmin=0, hmax=630, title='x', colour=2, 
 plot, table=ptc_twiss, haxis=s, vaxis=y, hmin=0, hmax=630, title='y', colour=4, NOLINE=False, NOVERSION=False;
 plot, table=ptc_twiss, haxis=s, vaxis=px, hmin=0, hmax=630, title='px', colour=2, NOLINE=False, NOVERSION=False;
 plot, table=ptc_twiss, haxis=s, vaxis=py, hmin=0, hmax=630, title='py', colour=4, NOLINE=False, NOVERSION=False;
-plot, table=ptc_twiss, haxis=s, vaxis=disp3, hmin=0, hmax=630, title='Vertical Dispersion Prime', colour=2, NOLINE=False, NOVERSION=False;
+plot, table=ptc_twiss, haxis=s, vaxis=disp3, hmin=0, hmax=630, title='Vertical Dispersion', colour=2, NOLINE=False, NOVERSION=False;
 plot, table=ptc_twiss, haxis=s, vaxis=disp4, hmin=0, hmax=630, title='Vertical Dispersion Prime', colour=4, NOLINE=False, NOVERSION=False;
 
 value, kf, kd, pfwk1_f, pfwk1_d, pfwk2_f, pfwk2_d, pfwk3_f, pfwk3_d;
