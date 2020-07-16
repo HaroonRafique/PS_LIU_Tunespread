@@ -8,8 +8,8 @@ import orbit_mpi
 import matplotlib
 import numpy as np
 import scipy.io as sio
-from scipy.stats import moment
 from matplotlib import cm
+from scipy.stats import moment
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
